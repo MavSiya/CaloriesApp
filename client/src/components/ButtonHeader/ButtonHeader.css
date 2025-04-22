@@ -1,0 +1,35 @@
+.button {
+    background-color:#8FE2A2 ;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 30px;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    margin-right: 1rem;
+    width: 350px;
+}
+
+.button:hover{
+    opacity: 0.8;
+}
+
+.button.active {
+    background: #3e6ae1;
+    color: #ffffff;
+}
+
+.header{
+    margin: 20px 50px;
+    display: flex;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px 2em;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button.btn_small{
+    width: 150px;
+}

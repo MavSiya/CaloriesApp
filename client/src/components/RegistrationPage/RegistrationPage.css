@@ -1,0 +1,17 @@
+.form_and_activity{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+.calculationKpfc{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
