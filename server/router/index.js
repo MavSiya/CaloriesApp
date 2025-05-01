@@ -1,7 +1,12 @@
 const Router = require('express').Router;
 const userController = require('../controllers/user-controller');
-//const userInfoRouter = require('./user-info-router'); 
 const userInfoController = require('../controllers/user-info-controller');
+const dishController = require('../controllers/dish-controller');
+const ingredientController = require('../controllers/ingredient-controller');
+const journalController = require('../controllers/journal-controller');
+const memberController = require('../controllers/member-controller');
+const menuController = require('../controllers/menu-controller');
+
 
 const {body} = require('express-validator');
 const authMiddleware = require('../middlewares/auth-middleware');
@@ -14,10 +19,8 @@ router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/users', authMiddleware , userController.getUsers);
 
-
-
 router.post(
-  '/userInfo'
+  '/userInfo',authMiddleware,
   [
     body('activityId').isInt().withMessage('Некоректний ID активності'),
     body('goalId').isInt().withMessage('Некоректний ID цілі'),
@@ -29,7 +32,6 @@ router.post(
   userInfoController.createUserInfo
 );
   
-// Роут для обновления данных пользователя
 router.put(
   '/userInfo',
   authMiddleware,
@@ -43,8 +45,43 @@ router.put(
   userInfoController.updateUserInfo
 );
 
-// Роут для получения информации о пользователе
 router.get('/userinfo', authMiddleware, userInfoController.getUserInfo);
 
+
+//dish-controller
+router.post('/create', authMiddleware, dishController.createDish); //done
+router.delete('/dish/:id', authMiddleware, dishController.deleteDish);//done
+router.post('/add-ingredient-todish', authMiddleware, dishController.addIngredient);//done
+router.put('/update-ingredient', authMiddleware, dishController.updateIngredient);//done
+router.delete('/remove-ingredient', authMiddleware, dishController.removeIngredient);
+router.get('/all', authMiddleware, dishController.getAllDishes);//done
+router.get('/search', authMiddleware, dishController.findDish);//done
+
+//ingredient-controller
+router.get('/add-ingredient-todb', authMiddleware, ingredientController.addIngredientToDB);
+router.get('/search-ingredient', authMiddleware, ingredientController.findIngredient);
+
+//journal-controller
+router.post('/add-dish', authMiddleware, journalController.addDishToMeal);//done
+router.post('/add-ingredient', authMiddleware, journalController.addIngredientToMeal);//done
+router.delete('/delete/:journalDishId', authMiddleware, journalController.deleteFromMeal);//done
+router.get('/meal-nutrients', authMiddleware, journalController.calculateMealNutrients);//done
+router.get('/daily-nutrients', authMiddleware, journalController.calculateTotalDailyNutrients);//done
+
+//member-controller
+router.post('/create-member', authMiddleware,memberController.createMember);//done
+router.post('/add-info',authMiddleware,  memberController.addMemberInfo);//done
+router.delete('/delete/:memberId', authMiddleware, memberController.deleteMember);
+router.get('/all-member',authMiddleware,  memberController.getAllMembers);//done
+router.get('/member/:memberId',authMiddleware,  memberController.getMemberById);//done
+router.put('/update/:memberId',authMiddleware,  memberController.updateMemberInfo);//done
+router.get('/info/:memberId',authMiddleware,  memberController.getMemberInfo);//done
+
+////menu-controller
+router.post('/add-in-menu',authMiddleware, menuController.addDishOrIngredientToMenu);//done
+router.get('/menu', authMiddleware,menuController.getMenu);//done
+router.delete('/menu/:mpwDishId', authMiddleware,menuController.deleteFromMenu);//done
+router.put('/menu/:mpwDishId', authMiddleware,menuController.updateMenuItem);//done
+router.get('/ingredients/aggregate', authMiddleware,menuController.getAggregatedIngredientsList);//done
 
 module.exports = router

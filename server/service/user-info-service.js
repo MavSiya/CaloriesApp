@@ -76,47 +76,69 @@ class UserInfoService {
     async updateUserInfo(userId, data) {
       const fields = [];
       const values = [];
-    
+      const currentData = await this.getUserInfo(userId); 
+   
       if (data.activityId !== undefined) {
         fields.push('activity_ID = ?');
         values.push(data.activityId);
+      } else {
+        fields.push('activity_ID = ?');
+        values.push(currentData.activity_ID);
       }
+    
       if (data.goalId !== undefined) {
         fields.push('goal_ID = ?');
         values.push(data.goalId);
+      } else {
+        fields.push('goal_ID = ?');
+        values.push(currentData.goal_ID);
       }
+    
       if (data.weight !== undefined) {
         fields.push('weight = ?');
         values.push(data.weight);
+      } else {
+        fields.push('weight = ?');
+        values.push(currentData.weight);
       }
+    
       if (data.height !== undefined) {
         fields.push('height = ?');
         values.push(data.height);
+      } else {
+        fields.push('height = ?');
+        values.push(currentData.height);
       }
+    
       if (data.dateOfBirth !== undefined) {
         fields.push('dateOfBirth = ?');
         values.push(data.dateOfBirth);
+      } else {
+        fields.push('dateOfBirth = ?');
+        values.push(currentData.dateOfBirth);
       }
+    
       if (data.sex !== undefined) {
         fields.push('sex = ?');
         values.push(data.sex);
+      } else {
+        fields.push('sex = ?');
+        values.push(currentData.sex);
       }
-    
-      // 💡 Если передано что-то, нужно обновить
+
       if (fields.length === 0) {
         throw new Error('No valid fields to update');
       }
     
-      // 👉 Пример: UPDATE Users_Info SET weight = ?, height = ? WHERE user_ID = ?
       const query = `
         UPDATE Users_Info SET ${fields.join(', ')} WHERE user_ID = ?
       `;
-    
       values.push(userId);
     
       const [result] = await pool.execute(query, values);
       return result;
     }
+    
     
   
     // Метод для получения информации о пользователе

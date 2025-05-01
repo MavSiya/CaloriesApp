@@ -3,19 +3,17 @@ const { validationResult } = require('express-validator');
 const ApiError = require('../exceptions/api-error');
 
 class UserInfoController {
-  // Метод для создания данных о пользователе
+  // Створення даних про користувача
   async createUserInfo(req, res, next) {
     try {
-      // Проверка на ошибки валидации
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
       }
 
       const { activityId, goalId, weight, height, dateOfBirth, sex } = req.body;
-      const userId = req.user.id; // Предполагаем, что id пользователя хранится в req.user
+      const userId = req.user.id; 
 
-      // Создание данных пользователя
       const userInfo = await userInfoService.createUserInfo(userId, {
         activityId,
         goalId,
@@ -25,26 +23,23 @@ class UserInfoController {
         sex
       });
 
-      // Возвращаем данные о пользователе
       return res.json(userInfo);
     } catch (e) {
       next(e);
     }
   }
 
-  // Метод для обновления данных о пользователе
+  // Оновлення даних про користувача
   async updateUserInfo(req, res, next) {
     try {
-      // Проверка на ошибки валидации
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
       }
 
       const { activityId, goalId, weight, height, dateOfBirth, sex } = req.body;
-      const userId = req.user.id; // Предполагаем, что id пользователя хранится в req.user
+      const userId = req.user.id;  
 
-      // Обновление данных пользователя
       const userInfo = await userInfoService.updateUserInfo(userId, {
         activityId,
         goalId,
@@ -54,14 +49,13 @@ class UserInfoController {
         sex
       });
 
-      // Возвращаем обновленные данные о пользователе
       return res.json(userInfo);
     } catch (e) {
       next(e);
     }
   }
 
-  // Метод для получения информации о пользователе
+  // Отримання інформації про користувача
   async getUserInfo(req, res, next) {
     try {
       const userId = req.user.id; // id пользователя из токена
