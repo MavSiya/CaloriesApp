@@ -11,7 +11,7 @@ class UserInfoController {
         return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
       }
 
-      const { activityId, goalId, weight, height, dateOfBirth, sex } = req.body;
+      const { activityId, goalId, weight, height, dateOfBirth, sex,name } = req.body;
       const userId = req.user.id; 
 
       const userInfo = await userInfoService.createUserInfo(userId, {
@@ -20,7 +20,8 @@ class UserInfoController {
         weight,
         height,
         dateOfBirth,
-        sex
+        sex,
+        name
       });
 
       return res.json(userInfo);
@@ -32,12 +33,14 @@ class UserInfoController {
   // Оновлення даних про користувача
   async updateUserInfo(req, res, next) {
     try {
+      console.log('req.body:', req.body);
+
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
       }
 
-      const { activityId, goalId, weight, height, dateOfBirth, sex } = req.body;
+      const { activityId, goalId, weight, height, dateOfBirth, sex, name } = req.body;
       const userId = req.user.id;  
 
       const userInfo = await userInfoService.updateUserInfo(userId, {
@@ -46,7 +49,8 @@ class UserInfoController {
         weight,
         height,
         dateOfBirth,
-        sex
+        sex,
+        name
       });
 
       return res.json(userInfo);

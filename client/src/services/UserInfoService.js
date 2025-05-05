@@ -1,9 +1,10 @@
-// userInfoService.js
+const API_URL = "http://localhost:5000/api";
+
 class UserInfoService {
     // Створення даних про користувача
-    async createUserInfo(activityId, goalId, weight, height, dateOfBirth, sex) {
+    async createUserInfo(activityId, goalId, weight, height, dateOfBirth, sex,name) {
       try {
-        const response = await fetch('/api/userInfo', {
+        const response = await fetch(`${API_URL}/userInfo`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -15,7 +16,8 @@ class UserInfoService {
             weight,
             height,
             dateOfBirth,
-            sex
+            sex,
+            name
           })
         });
   
@@ -33,21 +35,22 @@ class UserInfoService {
     }
   
     // Оновлення даних про користувача
-    async updateUserInfo(activityId, goalId, weight, height, dateOfBirth, sex) {
+    async updateUserInfo(activityId, goalId, weight, height, dateOfBirth, sex,name) {
       try {
-        const response = await fetch('/api/userInfo', {
+        const response = await fetch(`${API_URL}/userInfo`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`  
           },
-          body: JSON.stringify({
+          body: JSON.stringify({ 
             activityId,
             goalId,
             weight,
             height,
             dateOfBirth,
-            sex
+            sex,
+            name
           })
         });
   
@@ -67,7 +70,7 @@ class UserInfoService {
     // Метод для отримання даних про користувача
     async getUserInfo() {
       try {
-        const response = await fetch('/api/userinfo', {
+        const response = await fetch(`${API_URL}/userinfo`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`  // Токен из localStorage

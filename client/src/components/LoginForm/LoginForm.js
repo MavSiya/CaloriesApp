@@ -6,6 +6,7 @@ function LoginForm() {
    const [email, setEmail] = useState('')
    const [password, setPassword] = useState('')
    const { store } = useContext(Context);
+   
    return (
       <>
          <input onChange={e => setEmail(e.target.value)}

@@ -1,10 +1,15 @@
 import './App.css';
-import PersonalPage from './components/PersonalPage/PersonalPage';
 import RegistrationPage from './components/RegistrationPage/RegistrationPage';
 import LoginForm from './components/LoginForm/LoginForm';
 import { useContext, useEffect } from 'react';
 import { Context } from '.';
 import { observer } from "mobx-react-lite";
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+import JournalPage from './components/Journal/JournalPage/JournalPage';
+//import FamilyPage from './components/FamilyPage/FamilyPage';
+//import DishesPage from './components/DishesPage/DishesPage';
+//import MenuPage from './components/MenuPage/MenuPage';
 
 function App() {
   const { store } = useContext(Context);
@@ -27,9 +32,13 @@ function App() {
 
   return (
     <div>
-      <h1>{store.isAuth ? 'Користувач авторизований' : 'Авторизуйтесь'}</h1>
-     <h1>{store.user.isActivated ? 'Акаунт підтверджений по пошті' : 'Підтвердіть акаунт!'}</h1> 
-      <button onClick={() => store.logout()}>Вийти</button>
+      <h1>{store.isAuth ? '' : 'Авторизуйтесь'}</h1>
+     <h1>{store.user.isActivated ? '' : 'Підтвердіть акаунт!'}</h1> 
+      <Routes>
+      <Route path="/personal" element={<RegistrationPage />} />
+        <Route path="/" element={<Navigate to="/personal" />} />
+        <Route path="/journal" element={<JournalPage />} />
+      </Routes>
     </div>
   );
 };

@@ -27,7 +27,8 @@ router.post(
     body('weight').isFloat().withMessage('Вага повинна бути числом'),
     body('height').isFloat().withMessage('Ріст повинен бути числом'),
     body('dateOfBirth').isDate().withMessage('Невірна дата народження'),
-    body('sex').isIn(['male', 'female']).withMessage('Стать повинна бути або "male", або "female"')
+    body('sex').isIn(['male', 'female']).withMessage('Стать повинна бути або "male", або "female"'),
+    body('name').isString().withMessage('Імʼя повинно бути рядком')
   ],
   userInfoController.createUserInfo
 );
@@ -40,7 +41,9 @@ router.put(
     body('goalId').optional().isInt().withMessage('Некоректний ID цілі'),
     body('weight').optional().isFloat().withMessage('Вага повинна бути числом'),
     body('height').optional().isFloat().withMessage('Ріст повинен бути числом'),
-    body('dateOfBirth').optional().isDate().withMessage('Невірна дата народження')
+    body('dateOfBirth').optional().isDate().withMessage('Невірна дата народження'),
+    body('sex').optional().isIn(['male', 'female']).withMessage('Стать повинна бути male або female'),
+    body('name').optional().isString().withMessage('Імʼя повинно бути рядком'),
   ],
   userInfoController.updateUserInfo
 );

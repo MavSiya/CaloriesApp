@@ -1,7 +1,7 @@
 const { pool } = require('../data-base/db');
 
 class UserInfoService {
-    // Функция для расчета КБЖУ
+    // Функція для розрахунке КБЖУ
     calculateBMR(weight, height, age, sex, activityKoef, goalPercent) {
       const bmr = sex === 'male'
         ? (10 * weight) + (6.25 * height) - (5 * age) + 5
@@ -15,23 +15,22 @@ class UserInfoService {
       return { calories, proteins, fats, carbs };
     }
   
-    // Метод для создания данных о пользователе
+    // Створення даних про користувача
     async createUserInfo(userId, {
       activityId,
       goalId,
       weight,
       height,
       dateOfBirth,
-      sex
+      sex,
+      name
     }) {
       const connection = await pool.getConnection();
       try {
-        // Расчет возраста
         const birthYear = new Date(dateOfBirth).getFullYear();
         const currentYear = new Date().getFullYear();
         const age = currentYear - birthYear;
-  
-        // Получение коэффициентов активности и цели
+
         const [activityRow] = await connection.query(
           `SELECT koef FROM Activities WHERE id = ?`, [activityId]
         );
@@ -41,19 +40,16 @@ class UserInfoService {
           `SELECT percent FROM Goals WHERE id = ?`, [goalId]
         );
         const goalPercent = goalRow[0]?.percent || 1.0;
-  
-        // Расчет КБЖУ с использованием формулы Mifflin-St Jeor
+
         const { calories, proteins, fats, carbs } = this.calculateBMR(weight, height, age, sex, activityKoef, goalPercent);
   
-        // Создание новых данных
         await connection.query(`
           INSERT INTO Users_Info (
             user_ID, activity_ID, goal_ID, weight, height, dateOfBirth,
-            calories, proteins, fats, carbs, sex
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `, [userId, activityId, goalId, weight, height, dateOfBirth, calories, proteins, fats, carbs, sex]);
+            calories, proteins, fats, carbs, sex, name
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+        `, [userId, activityId, goalId, weight, height, dateOfBirth, calories, proteins, fats, carbs, sex, name]);
   
-        // Возвращаем все данные пользователя
         return {
           userId,
           activityId,
@@ -65,83 +61,72 @@ class UserInfoService {
           proteins,
           fats,
           carbs,
-          sex
+          sex,
+          name
         };
       } finally {
         connection.release();
       }
     }
   
-    // Метод для обновления данных о пользователе
+    // Оновлення даних
     async updateUserInfo(userId, data) {
       const fields = [];
       const values = [];
-      const currentData = await this.getUserInfo(userId); 
-   
-      if (data.activityId !== undefined) {
-        fields.push('activity_ID = ?');
-        values.push(data.activityId);
-      } else {
-        fields.push('activity_ID = ?');
-        values.push(currentData.activity_ID);
-      }
     
-      if (data.goalId !== undefined) {
-        fields.push('goal_ID = ?');
-        values.push(data.goalId);
-      } else {
-        fields.push('goal_ID = ?');
-        values.push(currentData.goal_ID);
-      }
+      const currentData = await this.getUserInfo(userId);
     
-      if (data.weight !== undefined) {
-        fields.push('weight = ?');
-        values.push(data.weight);
-      } else {
-        fields.push('weight = ?');
-        values.push(currentData.weight);
-      }
+      const activityId = data.activityId ?? currentData.activity_ID;
+      const goalId = data.goalId ?? currentData.goal_ID;
+      const weight = data.weight ?? currentData.weight;
+      const height = data.height ?? currentData.height;
+      const dateOfBirth = data.dateOfBirth ?? currentData.dateOfBirth;
+      const sex = data.sex ?? currentData.sex;
+      const name = data.name ?? currentData.name;
     
-      if (data.height !== undefined) {
-        fields.push('height = ?');
-        values.push(data.height);
-      } else {
-        fields.push('height = ?');
-        values.push(currentData.height);
-      }
+      // Вік
+      const birthYear = new Date(dateOfBirth).getFullYear();
+      const currentYear = new Date().getFullYear();
+      const age = currentYear - birthYear;
     
-      if (data.dateOfBirth !== undefined) {
-        fields.push('dateOfBirth = ?');
-        values.push(data.dateOfBirth);
-      } else {
-        fields.push('dateOfBirth = ?');
-        values.push(currentData.dateOfBirth);
-      }
+      const connection = await pool.getConnection();
+      try {
+        const [activityRow] = await connection.query(
+          `SELECT koef FROM Activities WHERE id = ?`, [activityId]
+        );
+        const activityKoef = activityRow[0]?.koef || 1.2;
     
-      if (data.sex !== undefined) {
-        fields.push('sex = ?');
-        values.push(data.sex);
-      } else {
-        fields.push('sex = ?');
-        values.push(currentData.sex);
-      }
-
-      if (fields.length === 0) {
-        throw new Error('No valid fields to update');
-      }
+        const [goalRow] = await connection.query(
+          `SELECT percent FROM Goals WHERE id = ?`, [goalId]
+        );
+        const goalPercent = goalRow[0]?.percent || 1.0;
     
-      const query = `
-        UPDATE Users_Info SET ${fields.join(', ')} WHERE user_ID = ?
-      `;
-      values.push(userId);
+        const { calories, proteins, fats, carbs } = this.calculateBMR(
+          weight, height, age, sex, activityKoef, goalPercent
+        );
     
-      const [result] = await pool.execute(query, values);
-      return result;
+        // Поля для оновлення
+        fields.push('activity_ID = ?', 'goal_ID = ?', 'weight = ?', 'height = ?', 'dateOfBirth = ?', 'sex = ?', 'name = ?');
+        values.push(activityId, goalId, weight, height, dateOfBirth, sex, name);
+    
+        // Оновлення КБЖУ
+        fields.push('calories = ?', 'proteins = ?', 'fats = ?', 'carbs = ?');
+        values.push(calories, proteins, fats, carbs);
+    
+        const query = `UPDATE Users_Info SET ${fields.join(', ')} WHERE user_ID = ?`;
+        values.push(userId);
+    
+        const [result] = await connection.execute(query, values);
+        return result;
+      } finally {
+        connection.release();
+      }
     }
     
     
+    
   
-    // Метод для получения информации о пользователе
+    // Отримання інформації про користувача
     async getUserInfo(userId) {
       const connection = await pool.getConnection();
       try {

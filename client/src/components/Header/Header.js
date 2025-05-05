@@ -1,18 +1,27 @@
 import ButtonHeader from "../ButtonHeader/ButtonHeader";
 import '../ButtonHeader/ButtonHeader.css';
 
+import { useNavigate } from 'react-router-dom';
+import { useContext} from 'react';
+import { Context } from '../../index.js';
+import { observer } from "mobx-react-lite";
+import JournalPage from "../Journal/JournalPage/JournalPage.js";
 
-export default function Header(){
+ function Header(){
+   const { store } = useContext(Context);
+   const navigate = useNavigate();
     return(
       <div className="header">
         <div> <img src="/img/logo.png" alt="logo" /></div>
       <div>
-      <ButtonHeader>Щоденник калорій</ButtonHeader>
-      <ButtonHeader className="btn_small">Сім'я</ButtonHeader>
-      <ButtonHeader className="btn_small">Блюда</ButtonHeader>
-      <ButtonHeader className="btn_small">Меню</ButtonHeader>
-      <ButtonHeader className="btn_small">Увійти</ButtonHeader>
+      <ButtonHeader  onClick={() => navigate('/journal')}>Щоденник калорій</ButtonHeader>
+      <ButtonHeader className="btn_small" onClick={() => navigate('/family')}>Сім'я</ButtonHeader>
+      <ButtonHeader className="btn_small" onClick={() => navigate('/dishes')}>Блюда</ButtonHeader>
+      <ButtonHeader className="btn_small" onClick={() => navigate('/menu')}>Меню</ButtonHeader>
+      <ButtonHeader onClick={() => navigate('/personal')} className="btn_small">Акаунт</ButtonHeader>
       </div>
      </div>
     )
   }
+
+  export default observer(Header);

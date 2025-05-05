@@ -1,36 +1,38 @@
-import { useState } from "react";
 import './CalculationKpfc.css'
 
-export default function CalculationKpfc() {
-    const [kkal, setKkal] = useState('1700')
-    const [proteins, setProteins] = useState('100')
-    const [fats, setFats] = useState('100')
-    const [carbohydrates, setCarbohydrates] = useState('100')
+import { observer } from "mobx-react-lite";
+import { useContext } from "react";
+import { Context } from "../../index";
+
+function CalculationKpfc() {
+    const { registrationStore } = useContext(Context);
   return (
    <>
 <h1>Ваші потреби</h1>
 
 <div className="elements">
     <section className="element"> 
-        <h2>{kkal}</h2>
+        <h2>{registrationStore.totalCalories || 0}</h2>
         <h2>Ккал</h2>
     </section>
 <div className="vertical-line"></div>
 <section className="element"> 
-        <h2>{proteins}</h2>
+        <h2>{registrationStore.proteins || 0}</h2>
         <h2>Білки</h2>
     </section>
 <div className="vertical-line"></div>
 <section className="element"> 
-        <h2>{fats}</h2>
+        <h2>{registrationStore.fats || 0}</h2>
         <h2>Жири</h2>
     </section>
 <div className="vertical-line"></div>
 <section className="element"> 
-        <h2>{carbohydrates}</h2>
+        <h2>{registrationStore.carbs || 0}</h2>
         <h2>Вуглеводи</h2>
     </section>
 </div>
  </>
   );
 }
+
+export default observer(CalculationKpfc);

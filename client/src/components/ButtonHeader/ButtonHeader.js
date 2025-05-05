@@ -1,11 +1,8 @@
 import './ButtonHeader.css'
 
-export default function ButtonHeader({children, className = ""}){
-function handleClick(){
-    console.log('button clicked')
-}
+export default function ButtonHeader({children, className = "", onClick }){
 
     return(
-     <button className={`button ${className}`} onClick={handleClick}>{children}</button>
+     <button className={`button ${className}`} onClick={onClick}>{children}</button>
     )
   }

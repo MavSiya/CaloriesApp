@@ -1,39 +1,43 @@
-import { useState } from 'react';
 import {goals} from './dataGoals.js'
 import './Goal.css'
 
-function GoalButton(props){
-    return(
-<li>
-<p>
+import { observer } from "mobx-react-lite";
+import { useContext } from "react";
+import { Context } from "../../index";
 
-<button 
-id={props.id} 
-isActive={props.isActive} 
-onClick={() => props.onClick(props.id)}
-className={`button_goal ${props.isActive === props.id ? "active" : ""}` }>
-<h2 className="title_goal">{props.type}</h2>
-</button>
+function GoalButton({ id, isActive, onClick, type }) {
+    return (
+      <li>
+        <button
+          onClick={() => onClick(id)}
+          className={`button_goal ${isActive ? 'active' : ''}`}
+        >
+          <h2 className="title_goal">{type}</h2>
+        </button>
+      </li>
+    );
+  }
 
-</p>
-</li>
-)}
-
-export default function Goal(){
-    const [isPressedId, setIsPressedId] = useState(null);
-        const toggleClass = (id) => {
-            setIsPressedId(id === isPressedId ? null : id)
-           };
+ function Goal(){
+    const { registrationStore } = useContext(Context);
+    const handleSelect = (id) => {
+        registrationStore.setGoal(id === registrationStore.goalId ? null : id);
+      };
+    
     return(<>
 <h1>Ціль</h1>
 <ul>
     {goals.map((goal) => (
-        <GoalButton 
-        key={goal.id} 
-        isActive={goal.id === isPressedId}
-        id={goal.id}
-        onClick ={toggleClass}>{goal.type}</GoalButton>
+      <GoalButton 
+      key={goal.id} 
+      isActive={goal.id === registrationStore.goalId}
+      id={goal.id}
+      onClick={handleSelect}
+      type={goal.type}
+    />
     ))}
 </ul>
 </>)
 }
+
+export default observer(Goal);

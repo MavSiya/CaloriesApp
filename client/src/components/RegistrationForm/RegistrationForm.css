@@ -59,3 +59,25 @@ input[type="number"]:focus {
     appearance: none;
     -moz-appearance: textfield;
 }
+
+.sex-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .sex-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s;
+  }
+  
+  .sex-button.active {
+    background-color: #4caf50;
+    color: white;
+    border-color: #4caf50;
+  }
+  
