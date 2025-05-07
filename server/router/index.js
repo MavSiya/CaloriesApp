@@ -58,7 +58,7 @@ router.post('/add-ingredient-todish', authMiddleware, dishController.addIngredie
 router.put('/update-ingredient', authMiddleware, dishController.updateIngredient);//done
 router.delete('/remove-ingredient', authMiddleware, dishController.removeIngredient);
 router.get('/all', authMiddleware, dishController.getAllDishes);//done
-router.get('/search', authMiddleware, dishController.findDish);//done
+router.get('/search-dish', authMiddleware, dishController.findDish);//done
 
 //ingredient-controller
 router.get('/add-ingredient-todb', authMiddleware, ingredientController.addIngredientToDB);
@@ -70,6 +70,9 @@ router.post('/add-ingredient', authMiddleware, journalController.addIngredientTo
 router.delete('/delete/:journalDishId', authMiddleware, journalController.deleteFromMeal);//done
 router.get('/meal-nutrients', authMiddleware, journalController.calculateMealNutrients);//done
 router.get('/daily-nutrients', authMiddleware, journalController.calculateTotalDailyNutrients);//done
+router.get('/target', authMiddleware, journalController.getDailyTarget);
+router.get('/meal-dish', authMiddleware, journalController.getMealByDateAndType);//done
+
 
 //member-controller
 router.post('/create-member', authMiddleware,memberController.createMember);//done

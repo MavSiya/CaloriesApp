@@ -14,21 +14,21 @@ export default class DishService {
   }
 
   static async updateIngredient(dishId, ingredientId, weight) {
-    return $api.put('/dish/update-ingredient', { dishId, ingredientId, weight });
+    return $api.put('/update-ingredient', { dishId, ingredientId, weight });
   }
 
   static async removeIngredient(dishId, ingredientId) {
-    return $api.delete('/dish/remove-ingredient', { data: { dishId, ingredientId } });
+    return $api.delete('/remove-ingredient', { data: { dishId, ingredientId } });
   }
 
   static async getAllDishes(userId) {
-    return $api.get('/dish/all', {
+    return $api.get('/all', {
       params: { userId }
     });
   }
 
   static async findDish(title, userId) {
-    return $api.get('/dish/search', {
+    return $api.get('/search-dish', {
       params: { title, userId }
     });
   }

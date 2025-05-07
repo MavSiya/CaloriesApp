@@ -1,0 +1,21 @@
+.bmr-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .bmr-item {
+    text-align: center;
+  }
+  
+  .bmr-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .bmr-label {
+    font-size: 14px;
+    color: #666;
+  }
+  

@@ -33,3 +33,12 @@
 .button.btn_small{
     width: 150px;
 }
+
+.header_for_journal{
+       margin: 20px 50px;
+    display: flex;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px 2em;
+  justify-content: space-between;
+  align-items: center;
+}

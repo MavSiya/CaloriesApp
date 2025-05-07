@@ -1,17 +1,23 @@
-import Header from '../../Header/Header';
+import HeaderForJournal from '../HeaderForJournal/HeaderForJournal.js';
+import DateSelector from '../DateSelector/DateSelector.js';
+import Bmr from '../Bmr/Bmr.js';
+import Meal from '../Meal/Meal.js';
 
 import { useContext} from 'react';
 import { Context } from '../../../index.js';
 import { observer } from "mobx-react-lite";
 
+
+
  function JournalPage(){
-   const { store } = useContext(Context);
     return(
       <div className="journal">
-        <Header />
-     <h1>Hi journal</h1>
+        <HeaderForJournal />
+        <DateSelector />
+        <Bmr />
+        <Meal/>
      </div>
     )
   }
 
-  export default observer(JournalPage);
+  export default JournalPage;

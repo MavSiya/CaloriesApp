@@ -18,10 +18,11 @@ class JournalService {
   }
 
   // Додати страву в прийом їжі
-  async addDishToMeal({ userId, memberId, date, typeOfMealId, dishId }) {
+  async addDishToMeal({ userId, memberId, date, typeOfMealId, dishId, weight }) {
     let whereClause = '';
     let params = [];
-  
+    console.log({ date, typeOfMealId, userId, memberId, weight });
+
     if (memberId != null) {
       whereClause = 'member_ID = ?';
       params = [date, typeOfMealId, memberId];
@@ -51,13 +52,14 @@ class JournalService {
       );
       journalId = newJournal.insertId;
     }
-  
+    const weightValue = weight != null ? weight : 0;
+
     const [addedDish] = await db.pool.execute(
       `
-      INSERT INTO Journal_Dish (dish_ID, ingredient_ID, journal_ID)
-      VALUES (?, NULL, ?)
+      INSERT INTO Journal_Dish (dish_ID, ingredient_ID, journal_ID, weight)
+      VALUES (?, NULL, ?, ?)
       `,
-      [dishId, journalId]
+      [dishId, journalId,weightValue]
     );
   
     return addedDish;
@@ -65,11 +67,10 @@ class JournalService {
   
 
   // Додати інгредієнт в прийом їжі
-  async addIngredientToMeal({ userId, memberId, date, typeOfMealId, ingredientId }) {
+  async addIngredientToMeal({ userId, memberId, date, typeOfMealId, ingredientId, weight }) {
     let whereClause = '';
     let params = [];
-  
-    // Определяем, кто использует этот журнал — пользователь или член семьи
+    console.log({ date, typeOfMealId, userId, memberId, weight });
     if (memberId != null) {
       whereClause = 'member_ID = ?';
       params = [date, typeOfMealId, memberId];
@@ -78,7 +79,6 @@ class JournalService {
       params = [date, typeOfMealId, userId];
     }
   
-    // Пытаемся найти существующую запись в журнале
     const [journalEntry] = await db.pool.execute(
       `
       SELECT id FROM Journal 
@@ -91,17 +91,14 @@ class JournalService {
     if (journalEntry.length > 0) {
       journalId = journalEntry[0].id;
     } else {
-      // Извлекаем день недели (id) из таблицы DayOfTheWeek
       const [dayOfWeekEntry] = await db.pool.execute(
         `
         SELECT id FROM DayOfTheWeek WHERE title = DAYNAME(?)
         `,
         [date]
       );
-  
       const dayOfTheWeekId = dayOfWeekEntry.length > 0 ? dayOfWeekEntry[0].id : null;
   
-      // Если день недели найден, вставляем новую запись в Journal
       const [newJournal] = await db.pool.execute(
         `
         INSERT INTO Journal (date, dayOfTheWeek_ID, typeOfMeal_ID, user_ID, member_ID)
@@ -112,17 +109,17 @@ class JournalService {
       journalId = newJournal.insertId;
     }
   
-    // Добавляем ингредиент в Journal_Dish
     const [addedIngredient] = await db.pool.execute(
       `
-      INSERT INTO Journal_Dish (dish_ID, ingredient_ID, journal_ID)
-      VALUES (NULL, ?, ?)
+      INSERT INTO Journal_Dish (dish_ID, ingredient_ID, journal_ID, weight)
+      VALUES (NULL, ?, ?, ?)
       `,
-      [ingredientId, journalId]
+      [ingredientId, journalId, weight]
     );
   
     return addedIngredient;
   }
+  
   
 
   // Видалити страву або інгредієнт із прийому їжі
@@ -138,72 +135,100 @@ class JournalService {
   }
 
   // Порахувати КБЖУ для одного прийому їжі
-  async calculateMealNutrients(userId, memberId, date, typeOfMealId) {
+  async calculateMealNutrients(userId, memberId=null, date, typeOfMealId) {
+    let userCondition;
+    let userValue;
+    console.log(memberId, date, typeOfMealId);
+    if (memberId != null) {
+      userCondition = 'j.member_ID = ?';
+      userValue = memberId;
+    } else {
+      userCondition = 'j.user_ID = ?';
+      userValue = userId;
+    }
+  
+    const [rows] = await db.pool.execute(
+      `
+      SELECT 
+        COALESCE(SUM(db.calories * jd.weight / 100), 0) + COALESCE(SUM(i.calories * jd.weight / 100), 0) AS totalCalories,
+        COALESCE(SUM(db.proteins * jd.weight / 100), 0) + COALESCE(SUM(i.proteins * jd.weight / 100), 0) AS totalProteins,
+        COALESCE(SUM(db.fats * jd.weight / 100), 0) + COALESCE(SUM(i.fats * jd.weight / 100), 0) AS totalFats,
+        COALESCE(SUM(db.carbs * jd.weight / 100), 0) + COALESCE(SUM(i.carbs * jd.weight / 100), 0) AS totalCarbs
+      FROM Journal j
+      LEFT JOIN Journal_Dish jd ON jd.journal_ID = j.id
+      LEFT JOIN Dishes d ON jd.dish_ID = d.id
+      LEFT JOIN DishBMR db ON d.id = db.dish_ID
+      LEFT JOIN Ingredients i ON jd.ingredient_ID = i.id
+      WHERE j.date = ? AND j.typeOfMeal_ID = ? AND ${userCondition}
+      `,
+      [date, typeOfMealId, userValue]
+    );
+  
+    return rows[0];
+  }
+  
+  // Порахувати загальне КБЖУ на день
+  async calculateTotalDailyNutrients(userId, memberId, date) {
     let whereClause = '';
     let params = [];
-
+    const formattedDate = new Date(date).toISOString().slice(0, 10); 
     if (memberId != null) {
-        whereClause = 'j.member_ID = ?';
-        params = [date, typeOfMealId, memberId];
+      whereClause = 'j.member_ID = ?';
+      params = [formattedDate, memberId];
     } else {
-        whereClause = 'j.user_ID = ?';
-        params = [date, typeOfMealId, userId];
+      whereClause = 'j.user_ID = ?';
+      params = [formattedDate, userId];
     }
-
+  
     const [rows] = await db.pool.execute(
-        `
-        SELECT 
-          COALESCE(SUM(db.calories), 0) + COALESCE(SUM(i.calories), 0) AS totalCalories,
-          COALESCE(SUM(db.proteins), 0) + COALESCE(SUM(i.proteins), 0) AS totalProteins,
-          COALESCE(SUM(db.fats), 0) + COALESCE(SUM(i.fats), 0) AS totalFats,
-          COALESCE(SUM(db.carbs), 0) + COALESCE(SUM(i.carbs), 0) AS totalCarbs
-        FROM Journal j
-        LEFT JOIN Journal_Dish jd ON jd.journal_ID = j.id
-        LEFT JOIN Dishes d ON jd.dish_ID = d.id
-        LEFT JOIN DishBMR db ON d.id = db.dish_ID
-        LEFT JOIN Ingredients i ON jd.ingredient_ID = i.id
-        WHERE j.date = ? AND j.typeOfMeal_ID = ? AND ${whereClause}
-        `,
-        params
+      `
+      SELECT 
+        COALESCE(SUM(db.calories * jd.weight / 100), 0) + COALESCE(SUM(i.calories * jd.weight / 100), 0) AS totalCalories,
+        COALESCE(SUM(db.proteins * jd.weight / 100), 0) + COALESCE(SUM(i.proteins * jd.weight / 100), 0) AS totalProteins,
+        COALESCE(SUM(db.fats * jd.weight / 100), 0) + COALESCE(SUM(i.fats * jd.weight / 100), 0) AS totalFats,
+        COALESCE(SUM(db.carbs * jd.weight / 100), 0) + COALESCE(SUM(i.carbs * jd.weight / 100), 0) AS totalCarbs
+      FROM Journal j
+      LEFT JOIN Journal_Dish jd ON jd.journal_ID = j.id
+      LEFT JOIN Dishes d ON jd.dish_ID = d.id
+      LEFT JOIN DishBMR db ON d.id = db.dish_ID
+      LEFT JOIN Ingredients i ON jd.ingredient_ID = i.id
+      WHERE j.date = ? AND ${whereClause}
+      `,
+      params
+    );
+  
+    return rows[0];
+  }
+  
+  async getMealByDateAndType({ date, typeOfMealId, userId, memberId }) {
+    const whereClause = memberId ? 'member_ID = ?' : 'user_ID = ?';
+    const idValue = memberId ?? userId;
+
+    const [journalRows] = await db.pool.execute(
+      `SELECT id FROM Journal WHERE date = ? AND typeOfMeal_ID = ? AND ${whereClause}`,
+      [date, typeOfMealId, idValue]
     );
 
-    return rows[0];
-}
+    if (journalRows.length === 0) {
+      return [];
+    }
 
+    const journalId = journalRows[0].id;
 
-  // Порахувати загальне КБЖУ на день
-  // Порахувати загальне КБЖУ на день
-async calculateTotalDailyNutrients(userId, memberId, date) {
-  let whereClause = '';
-  let params = [];
+    const [mealItems] = await db.pool.execute(
+      `
+      SELECT JD.id, JD.weight, D.id as dishId, D.title as dishTitle,
+             I.id as ingredientId, I.title as ingredientTitle
+      FROM Journal_Dish JD
+      LEFT JOIN Dishes D ON JD.dish_ID = D.id
+      LEFT JOIN Ingredients I ON JD.ingredient_ID = I.id
+      WHERE JD.journal_ID = ?
+      `,
+      [journalId]
+    );
 
-  if (memberId != null) {
-    whereClause = 'j.member_ID = ?';
-    params = [date, memberId];
-  } else {
-    whereClause = 'j.user_ID = ?';
-    params = [date, userId];
+    return mealItems;
   }
-
-  const [rows] = await db.pool.execute(
-    `
-    SELECT 
-      COALESCE(SUM(db.calories), 0) + COALESCE(SUM(i.calories), 0) AS totalCalories,
-      COALESCE(SUM(db.proteins), 0) + COALESCE(SUM(i.proteins), 0) AS totalProteins,
-      COALESCE(SUM(db.fats), 0) + COALESCE(SUM(i.fats), 0) AS totalFats,
-      COALESCE(SUM(db.carbs), 0) + COALESCE(SUM(i.carbs), 0) AS totalCarbs
-    FROM Journal j
-    LEFT JOIN Journal_Dish jd ON jd.journal_ID = j.id
-    LEFT JOIN Dishes d ON jd.dish_ID = d.id
-    LEFT JOIN DishBMR db ON d.id = db.dish_ID
-    LEFT JOIN Ingredients i ON jd.ingredient_ID = i.id
-    WHERE j.date = ? AND ${whereClause}
-    `,
-    params
-  );
-
-  return rows[0];
-}
 
   
 }

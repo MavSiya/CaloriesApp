@@ -1,17 +1,17 @@
 const journalService = require('../service/journal-service');
 const ingredientService = require('../service/ingredient-service');
+const userInfoService = require('../service/user-info-service'); 
 
 class JournalController {
   async addDishToMeal(req, res, next) {
     try {
       const userId = req.user.id;
-      const {memberId, date, typeOfMealTitle, dishId } = req.body;
-      const typeOfMealId = await journalService.getTypeOfMealIdByTitle(typeOfMealTitle);
+      const {memberId, date, typeOfMealId, dishId, weight } = req.body;
       if (!userId && !memberId) {
         return res.status(400).json({ error: 'Не вказано користувача або члена групи' });
       }
       
-      const result = await journalService.addDishToMeal({ userId, memberId, date, typeOfMealId, dishId });
+      const result = await journalService.addDishToMeal({ userId, memberId, date, typeOfMealId, dishId, weight });
       return res.json(result);
     } catch (error) {
       next(error);
@@ -21,16 +21,15 @@ class JournalController {
   async addIngredientToMeal(req, res, next) {
     try {
       const userId = req.user.id;
-      const {memberId, date, typeOfMealTitle, ingredientTitle } = req.body;
-      const ingredientId = await ingredientService.getIngredientIdByTitle(ingredientTitle);
-      const typeOfMealId = await journalService.getTypeOfMealIdByTitle(typeOfMealTitle);
+      const {memberId, date, typeOfMealId, ingredientId, weight  } = req.body;
+     
       if (!userId && !memberId) {
         return res.status(400).json({ error: 'Не вказано користувача або члена групи' });
       }
       if (!ingredientId && !typeOfMealId) {
         return res.status(400).json({ error: 'Не вказано інгрідієнт або тип прийому' });
       }
-      const result = await journalService.addIngredientToMeal({ userId, memberId, date, typeOfMealId, ingredientId });
+      const result = await journalService.addIngredientToMeal({ userId, memberId, date, typeOfMealId, ingredientId, weight  });
       return res.json(result);
     } catch (error) {
       next(error);
@@ -50,8 +49,8 @@ class JournalController {
   async calculateMealNutrients(req, res, next) {
     try {
       const userId = req.user.id;
-      const {memberId, date, typeOfMealTitle } = req.query;
-      const typeOfMealId = await journalService.getTypeOfMealIdByTitle(typeOfMealTitle);
+      const {memberId, date, typeOfMealId } = req.query;
+      console.log('meal-nutrients req.query:', req.query); 
       const nutrients = await journalService.calculateMealNutrients(userId, memberId, date, typeOfMealId);
       return res.json(nutrients);
     } catch (error) {
@@ -69,6 +68,46 @@ class JournalController {
       next(error);
     }
   }
+
+  async getDailyTarget(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const { memberId } = req.query;
+  
+      const targets = await userInfoService.getDailyTargets(userId, memberId);
+      if (!targets) {
+        return res.status(404).json({ error: 'Цільові значення КБЖУ не знайдено' });
+      }
+  
+      return res.json(targets);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMealByDateAndType(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const { date, typeOfMealId, memberId } = req.query;
+      console.log('QUERY:', req.query);
+      if (!date || !typeOfMealId || (!userId && !memberId)) {
+        return res.status(400).json({ message: 'Missing required parameters' });
+      }
+
+      const meal = await journalService.getMealByDateAndType({
+        date,
+        typeOfMealId,
+        userId,
+        memberId
+      });
+
+      res.json(meal);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  
 }
 
 module.exports = new JournalController();

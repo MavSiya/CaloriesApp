@@ -1,9 +1,9 @@
-import ButtonHeader from "../ButtonHeader/ButtonHeader";
-import '../ButtonHeader/ButtonHeader.css';
+import ButtonHeader from "../../ButtonHeader/ButtonHeader.js";
+import '../../ButtonHeader/ButtonHeader.css';
 
 import { useNavigate } from 'react-router-dom';
 import { useContext} from 'react';
-import { Context } from '../../index.js';
+import { Context } from '../../../index.js';
 import { observer } from "mobx-react-lite";
 
 
@@ -11,7 +11,7 @@ import { observer } from "mobx-react-lite";
    const { store } = useContext(Context);
    const navigate = useNavigate();
     return(
-      <div className="header">
+      <div className="header_for_journal">
         <div> <img src="/img/logo.png" alt="logo" /></div>
       <div>
       <ButtonHeader  onClick={() => navigate('/journal')}>Щоденник калорій</ButtonHeader>

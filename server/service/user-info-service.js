@@ -138,6 +138,28 @@ class UserInfoService {
         connection.release();
       }
     }
+
+    async getDailyTargets(userId, memberId = null) {
+      if (memberId != null) {
+        const [rows] = await pool.query(`
+          SELECT calories, proteins, fats, carbs
+          FROM Members_Info
+          WHERE member_ID = ?
+        `, [memberId]);
+    
+        return rows[0];
+      } else {
+        const [rows] = await pool.query(`
+          SELECT calories, proteins, fats, carbs
+          FROM Users_Info
+          WHERE user_ID = ?
+        `, [userId]);
+    
+        return rows[0];
+      }
+    }
+
+  
   }
   
   module.exports = new UserInfoService();

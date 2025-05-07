@@ -23,6 +23,10 @@ export default class Store {
         this.isLoading = bool;
     }
 
+    setSelectedMemberId(memberId) {
+        this.selectedMemberId = memberId;
+      }
+      
     async login(email, password) {
         try {
             const response = await AuthService.login(email, password);
