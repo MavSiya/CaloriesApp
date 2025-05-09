@@ -57,8 +57,11 @@ router.delete('/dish/:id', authMiddleware, dishController.deleteDish);//done
 router.post('/add-ingredient-todish', authMiddleware, dishController.addIngredient);//done
 router.put('/update-ingredient', authMiddleware, dishController.updateIngredient);//done
 router.delete('/remove-ingredient', authMiddleware, dishController.removeIngredient);
-router.get('/all', authMiddleware, dishController.getAllDishes);//done
+router.get('/all-dishes', authMiddleware, dishController.getAllDishes);//done
+router.get('/all-dishes-bmr', authMiddleware, dishController.getAllDishesWithBmr);//done
 router.get('/search-dish', authMiddleware, dishController.findDish);//done
+router.get('/get-dish-type/:typeId', authMiddleware, dishController.getDishTypeById);//done
+router.get('/get-all-dish-types', authMiddleware, dishController.getAllDishTypes);//done
 
 //ingredient-controller
 router.get('/add-ingredient-todb', authMiddleware, ingredientController.addIngredientToDB);

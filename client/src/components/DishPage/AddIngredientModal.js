@@ -1,64 +1,71 @@
-import React, { useState } from 'react';
 import './Modal.css';
 
-const AddIngredientModal = ({ onClose, onSave }) => {
-  const [ingredientName, setIngredientName] = useState('');
-  const [weight, setWeight] = useState(100);
-  const [searchResults, setSearchResults] = useState([]);
-  
-  // Пример данных ингредиентов
-  const allIngredients = [
-    { id: 1, name: 'Цибуля', calories: 43, proteins: 0.2, fats: 0.3, carbs: 10 },
-    { id: 2, name: 'Курка', calories: 150, proteins: 20, fats: 5, carbs: 0 },
-    { id: 3, name: 'Песто', calories: 300, proteins: 5, fats: 25, carbs: 10 },
-  ];
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from '../../index.js';
+import { observer } from "mobx-react-lite";
 
-  const handleSearch = (query) => {
-    setIngredientName(query);
-    if (query.length > 2) {
-      const results = allIngredients.filter(ing => 
-        ing.name.toLowerCase().includes(query.toLowerCase())
-      );
-      setSearchResults(results);
-    } else {
-      setSearchResults([]);
+const AddIngredientModal = ({ onClose, onSave }) => {
+  const { dishStore } = useContext(Context);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const [weight, setWeight] = useState(100);
+  const [message, setMessage] = useState('');
+
+  const handleSearch = async (query) => {
+    setSearchTerm(query);
+    setSelectedIngredient(null);
+
+    if (query.length >= 2) {
+      await dishStore.searchIngredientByName(query);
     }
   };
 
   const handleSelectIngredient = (ingredient) => {
-    setIngredientName(ingredient.name);
-    setSearchResults([]);
+    setSelectedIngredient(ingredient);
+    setSearchTerm(ingredient.title);
   };
 
   const handleSave = () => {
-    const selectedIngredient = allIngredients.find(ing => ing.name === ingredientName);
-    if (selectedIngredient) {
-      onSave({
-        ...selectedIngredient,
-        weight: weight
-      });
+    if (!selectedIngredient || !weight) return;
+
+    onSave({
+      ...selectedIngredient,
+      weight: parseFloat(weight)
+    });
+
+    setMessage('Інгредієнт додано!');
+    setTimeout(() => {
+      setMessage('');
+      setSearchTerm('');
+      setSelectedIngredient(null);
+      setWeight(100);
       onClose();
-    }
+    }, 1000);
   };
+
+  const filteredList = dishStore.ingredients.filter(item =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <button className="modal-close" onClick={onClose}>×</button>
-        <h2>Додайте інгрідієнт до страви</h2>
+        <h2>Додайте інгредієнт до страви</h2>
         
         <div className="form-group">
           <input
             type="text"
-            placeholder="Оберіть інгрідієнт..."
-            value={ingredientName}
+            placeholder="Оберіть інгредієнт..."
+            value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
           />
-          {searchResults.length > 0 && (
+          {searchTerm && filteredList.length > 0 && (
             <ul className="search-results">
-              {searchResults.map(ing => (
+              {filteredList.map(ing => (
                 <li key={ing.id} onClick={() => handleSelectIngredient(ing)}>
-                  {ing.name} ({ing.calories} ккал)
+                  {ing.title} ({ing.calories} ккал)
                 </li>
               ))}
             </ul>
@@ -79,13 +86,15 @@ const AddIngredientModal = ({ onClose, onSave }) => {
         <button 
           className="add-button"
           onClick={handleSave}
-          disabled={!ingredientName || !weight}
+          disabled={!selectedIngredient || !weight}
         >
           Додати
         </button>
+
+        {message && <p className="success-message">{message}</p>}
       </div>
     </div>
   );
 };
 
-export default AddIngredientModal;
+export default observer(AddIngredientModal);

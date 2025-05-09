@@ -1,55 +1,79 @@
-import React, { useState } from 'react';
 import AddDishModal from './AddDishModal';
 import './DishList.css';
 
+import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { Context } from '../../index.js';
+import { observer } from "mobx-react-lite";
+
 const DishList = () => {
-  const [dishes, setDishes] = useState([
-    { id: 1, name: 'Жаркое', type: 'Гаряча страва', ingredients: 'Курка, песто...', calories: 250, proteins: 20, fats: 20, carbs: 100 },
-    { id: 2, name: 'Жарке', type: 'Гаряча страва', ingredients: 'Курка, песто...', calories: 250, proteins: 20, fats: 20, carbs: 100 },
-    { id: 3, name: 'Жарке', type: 'Гаряча страва', ingredients: 'Курка, песто...', calories: 250, proteins: 20, fats: 20, carbs: 100 },
-  ]);
-  
+  const { dishStore } = useContext(Context);
   const [showAddModal, setShowAddModal] = useState(false);
 
+  useEffect(() => {
+    dishStore.fetchAllDishesWithBmr();
+  }, []);
+
   const addDish = (newDish) => {
-    setDishes([...dishes, { ...newDish, id: dishes.length + 1 }]);
     setShowAddModal(false);
   };
 
+const handleDelete = async (dishId) => {
+  if (window.confirm('Ви впевнені, що хочете видалити цю страву?')) {
+    try {
+      await dishStore.deleteDish(dishId);
+      await dishStore.fetchAllDishesWithBmr();
+    } catch (error) {
+      alert('Помилка при видаленні страви: ' + error.message);
+    }
+  }
+};
+  
+
   return (
     <div className="dish-list-container">
-      <h1>Перелік блюд</h1>
-      
-      <table className="dishes-table">
-        <thead>
-          <tr>
-            <th>Назва</th>
-            <th>Тип</th>
-            <th>Інгрідієнти</th>
-            <th>КБЖУ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dishes.map(dish => (
-            <tr key={dish.id}>
-              <td>{dish.name}</td>
-              <td>{dish.type}</td>
-              <td>{dish.ingredients}</td>
-              <td>{dish.calories} / {dish.proteins} / {dish.fats} / {dish.carbs}</td>
+      <h1>Перелік страв</h1>
+
+      {dishStore.isLoading ? (
+        <div>Завантаження...</div>
+      ) : dishStore.error ? (
+        <div>Помилка: {dishStore.error}</div>
+      ) : (
+        <table className="dishes-table">
+          <thead>
+            <tr>
+              <th>Назва</th>
+              <th>Тип</th>
+              <th>КБЖУ</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      
-      <button 
+          </thead>
+          <tbody>
+            {dishStore.dishes.map(dish => (
+              <tr key={dish.id}>
+                <td>{dish.title}</td>
+                <td>{dish.type}</td>
+                <td>
+                  {dish.calories || 0} / {dish.proteins || 0} / {dish.fats || 0} / {dish.carbs || 0}
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(dish.id)}>🗑</button>
+                </td>
+
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <button
         className="add-dish-button"
         onClick={() => setShowAddModal(true)}
       >
-        Додати блюдо
+        Додати страву
       </button>
-      
+
       {showAddModal && (
-        <AddDishModal 
+        <AddDishModal
           onClose={() => setShowAddModal(false)}
           onSave={addDish}
         />
@@ -58,4 +82,4 @@ const DishList = () => {
   );
 };
 
-export default DishList;
+export default observer(DishList);

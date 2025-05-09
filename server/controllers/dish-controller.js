@@ -7,13 +7,16 @@ class DishController {
   async createDish(req, res, next) {
     try {
       const userId = req.user.id;
-      const { title, type } = req.body;
+      const { title, typeId } = req.body;
 
       if (!title) {
         return next(ApiError.BadRequest('Назва блюда обовʼязкова'));
       }
+      if (!typeId) {
+        return next(ApiError.BadRequest('Тип обовязковий обовʼязковий'));
+      }
 
-      const dish = await dishService.createDish(title,userId,type);
+      const dish = await dishService.createDish(title,userId,typeId);
       res.json(dish);
     } catch (e) {
       next(e);
@@ -34,8 +37,8 @@ class DishController {
   // Додавання інгрідієнту
   async addIngredient(req, res, next) {
     try {
-      const { dishId, ingredientTitle, weight } = req.body;
-      await dishCompositionService.addIngredientToDish(dishId, ingredientTitle, weight);
+      const { dishId, title, weight } = req.body;
+      await dishCompositionService.addIngredientToDish(dishId, title, weight);
 
       // Оновлюємо КБЖУ після додавання інгрідієнту
       const kbzhu = await dishCompositionService.calculateBMR(dishId);
@@ -88,7 +91,17 @@ class DishController {
     }
   }
 
-  // Поиск блюда по названию
+  async getAllDishesWithBmr(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const dishes = await dishService.getAllDishesWithBmr(userId);
+      res.json(dishes);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  // Пошук страви по назві
   async findDish(req, res, next) {
     try {
       const userId = req.user.id;
@@ -99,6 +112,29 @@ class DishController {
       next(e);
     }
   }
+
+   // отримати назву типу страви по ID
+   async getDishTypeById(req, res) {
+    const { typeId } = req.params;
+    try {
+      const type = await dishService.getDishTypeById(typeId);
+      res.json(type);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching dish type', error });
+    }
+  }
+
+  // Отримати всі типи страв
+  async getAllDishTypes(req, res) {
+    try {
+      const userId = req.user.id;
+      const types = await dishService.getAllDishTypes(userId);
+      res.json(types);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching dish types', error });
+    }
+  }
+
 }
 
 module.exports = new DishController();

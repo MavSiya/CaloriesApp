@@ -24,6 +24,8 @@
   
   .add-dish-button {
     background-color: #4CAF50;
+    width: 100px;
+    height: 60px;
     color: white;
     border: none;
     padding: 10px 20px;

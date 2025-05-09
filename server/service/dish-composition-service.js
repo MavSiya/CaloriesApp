@@ -3,13 +3,13 @@ const ingredientService = require('./ingredient-service');
 const dishService = require('./dish-service');
 
 class DishCompositionService {
-  async addIngredientToDish(dishId, ingredientTitle, weight) {
-
-    const ingredientId = await ingredientService.getIngredientIdByTitle(ingredientTitle);
+  async addIngredientToDish(dishId, ingredientTitle, weight_grams) {
+console.log(ingredientTitle);
+    const ingredient_ID = await ingredientService.getIngredientIdByTitle(ingredientTitle);
   
     await db.pool.execute(
       'INSERT INTO dish_ingredient (dish_ID, ingredient_ID, weight_grams) VALUES (?, ?, ?)',
-      [dishId, ingredientId, weight]
+      [dishId, ingredient_ID, weight_grams]
     );
     const totalBMR = await this.calculateBMR(dishId);
    // Проверить, существует ли запись в DishBMR для этого блюда

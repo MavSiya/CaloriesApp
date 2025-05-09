@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { Context } from '../../index.js';
+import { observer } from "mobx-react-lite";
+
+
 import AddIngredientModal from './AddIngredientModal';
 import './Modal.css';
 
 const AddDishModal = ({ onClose, onSave }) => {
+  const {dishStore } = useContext(Context);
+
   const [dishName, setDishName] = useState('');
+  const [dishType, setDishType] = useState('');
+  const [dishTypes, setDishTypes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [showIngredientModal, setShowIngredientModal] = useState(false);
   const [nutrition, setNutrition] = useState({
@@ -13,29 +22,53 @@ const AddDishModal = ({ onClose, onSave }) => {
     carbs: 0
   });
 
+  // Загрузка типов блюд при монтировании компонента
+  useEffect(() => {
+    const loadDishTypes = async () => {
+      try {
+        await dishStore.fetchAllDishTypes();
+        console.log(dishStore.typesOfDish);
+        setDishTypes(dishStore.typesOfDish || []);
+        if (dishStore.typesOfDish.length > 0) {
+          setDishType(dishStore.typesOfDish[0].id); 
+        }
+      } catch (error) {
+        console.error('Error loading dish types:', error);
+      }
+    };
+    
+    loadDishTypes();
+  }, []);
+
   const addIngredient = (ingredient) => {
     setIngredients([...ingredients, ingredient]);
-    // Обновляем КБЖУ (упрощенный расчет)
-    setNutrition({
-      calories: nutrition.calories + ingredient.calories,
-      proteins: nutrition.proteins + ingredient.proteins,
-      fats: nutrition.fats + ingredient.fats,
-      carbs: nutrition.carbs + ingredient.carbs
-    });
+    setNutrition(prev => ({
+      calories: parseFloat((prev.calories + Number(ingredient.calories)).toFixed(2)),
+      proteins: parseFloat((prev.proteins + Number(ingredient.proteins)).toFixed(2)),
+      fats: parseFloat((prev.fats + Number(ingredient.fats)).toFixed(2)),
+      carbs: parseFloat((prev.carbs + Number(ingredient.carbs)).toFixed(2)),
+    }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    console.log("dishType:", dishType);
+
     const dish = {
-      name: dishName,
-      type: 'Гаряча страва', // Можно сделать выбор типа
-      ingredients: ingredients.map(i => `${i.name} ${i.weight}г`).join(', '),
-      calories: nutrition.calories,
-      proteins: nutrition.proteins,
-      fats: nutrition.fats,
-      carbs: nutrition.carbs
+      title: dishName,
+      type: dishType,
+      ingredients
     };
-    onSave(dish);
+  
+    try {
+      await dishStore.createDish(dish);
+      onSave(dish);
+      onClose();
+      dishStore.fetchAllDishesWithBmr();
+    } catch (error) {
+      alert(error.message);
+    }
   };
+  
 
   return (
     <div className="modal-overlay">
@@ -51,11 +84,26 @@ const AddDishModal = ({ onClose, onSave }) => {
             onChange={(e) => setDishName(e.target.value)}
           />
         </div>
+
+        <div className="form-group">
+          <label>Тип страви:</label>
+          <select
+            value={dishType}
+            onChange={(e) => setDishType(e.target.value)}
+            className="dish-type-select"
+          >
+            {dishTypes.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.title}
+              </option>
+            ))}
+          </select>
+        </div>
         
         <div className="ingredients-list">
           {ingredients.map((ing, index) => (
             <div key={index} className="ingredient-item">
-              {ing.name} {ing.weight} гр | {ing.calories} ккал | {ing.proteins} б | {ing.fats} ж | {ing.carbs} в
+              {ing.title} {ing.weight} гр | {ing.calories} ккал | {ing.proteins} б | {ing.fats} ж | {ing.carbs} в
             </div>
           ))}
         </div>
@@ -92,7 +140,7 @@ const AddDishModal = ({ onClose, onSave }) => {
         <button 
           className="create-dish-button"
           onClick={handleSave}
-          disabled={!dishName || ingredients.length === 0}
+          disabled={!dishName || !dishType || ingredients.length === 0}
         >
           Створити
         </button>
@@ -108,4 +156,4 @@ const AddDishModal = ({ onClose, onSave }) => {
   );
 };
 
-export default AddDishModal;
+export default observer(AddDishModal);

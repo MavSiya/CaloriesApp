@@ -7,8 +7,8 @@ import { observer } from "mobx-react-lite";
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import JournalPage from './components/Journal/JournalPage/JournalPage';
+import DishPage from './components/DishPage/DishPage';
 //import FamilyPage from './components/FamilyPage/FamilyPage';
-//import DishesPage from './components/DishesPage/DishesPage';
 //import MenuPage from './components/MenuPage/MenuPage';
 
 function App() {
@@ -38,6 +38,7 @@ function App() {
       <Route path="/personal" element={<RegistrationPage />} />
         <Route path="/" element={<Navigate to="/personal" />} />
         <Route path="/journal" element={<JournalPage />} />
+        <Route path="/dishes" element={<DishPage />} />
       </Routes>
     </div>
   );
