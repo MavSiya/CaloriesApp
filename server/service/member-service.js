@@ -88,36 +88,40 @@ class MemberService {
 
   // Видалити мембера
   async deleteMember(memberId, userId) {
-    const [member] = await db.pool.execute(
-      `
-      SELECT * FROM Members
-      WHERE id = ? AND User_ID = ?
-      `,
-      [memberId, userId]
-    );
-
-    if (member.length === 0) {
-      throw new Error('Member not found or access denied');
-    }
-
-    // Видаляємо мембера
-    await db.execute(
-      `
-      DELETE FROM Members
-      WHERE id = ?
-      `,
-      [memberId]
-    );
-    await db.execute(
-        `
-        DELETE FROM Members_Info
-        WHERE member_ID = ?
-        `,
-        [memberId]
-      );
-
-    return { message: 'Member deleted successfully' };
+  console.log('Пытаемся удалить члена', memberId, userId);
+  
+  const [member] = await db.pool.execute(
+    `
+    SELECT * FROM Members
+    WHERE id = ? AND user_ID = ?
+    `,
+    [memberId, userId]
+  );
+  console.log('Результат поиска члена:', member);
+  
+  if (member.length === 0) {
+    throw new Error('Member not found or access denied');
   }
+
+  await db.pool.execute(
+    `
+    DELETE FROM Members
+    WHERE id = ?
+    `,
+    [memberId]
+  );
+  
+  await db.pool.execute(
+    `
+    DELETE FROM Members_Info
+    WHERE member_ID = ?
+    `,
+    [memberId]
+  );
+  
+  return { message: 'Member deleted successfully' };
+}
+
 
   // Отримати всіх мемберів користувача
   async getAllMembers(userId) {
@@ -189,18 +193,22 @@ class MemberService {
 
   // Отримати інформацію про конкретного мембера
   async getMemberInfo(memberId) {
-    const [memberInfo] = await db.pool.execute(
+  const connection = await db.pool.getConnection();
+  try {
+    const [rows] = await connection.query(
       `
-      SELECT mi.*, a.id AS activity_ID, g.id AS goal_ID
+      SELECT mi.*, m.name
       FROM Members_Info mi
-      JOIN Activities a ON mi.activity_ID = a.id
-      JOIN Goals g ON mi.goal_ID = g.id
+      JOIN Members m ON mi.member_ID = m.id
       WHERE mi.member_ID = ?
       `,
       [memberId]
     );
-    return memberInfo[0];
+    return rows[0] || null;
+  } finally {
+    connection.release();
   }
+}
   
 }
 

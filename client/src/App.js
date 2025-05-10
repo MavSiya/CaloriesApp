@@ -8,7 +8,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import JournalPage from './components/Journal/JournalPage/JournalPage';
 import DishPage from './components/DishPage/DishPage';
-//import FamilyPage from './components/FamilyPage/FamilyPage';
+import GroupPage from './components/GroupPage/GroupPage';
 //import MenuPage from './components/MenuPage/MenuPage';
 
 function App() {
@@ -33,12 +33,14 @@ function App() {
   return (
     <div>
       <h1>{store.isAuth ? '' : 'Авторизуйтесь'}</h1>
-     <h1>{store.user.isActivated ? '' : 'Підтвердіть акаунт!'}</h1> 
+      <h1>{store.user.isActivated ? '' : 'Підтвердіть акаунт!'}</h1>
       <Routes>
-      <Route path="/personal" element={<RegistrationPage />} />
+        <Route path="/personal" element={<RegistrationPage />} />
         <Route path="/" element={<Navigate to="/personal" />} />
-        <Route path="/journal" element={<JournalPage />} />
+        <Route path="/journal" element={<JournalPage />} /> {/* Личный журнал */}
+        <Route path="/group/journal/:memberId" element={<JournalPage />} /> {/* Журнал члена группы */}
         <Route path="/dishes" element={<DishPage />} />
+        <Route path="/group" element={<GroupPage />} />
       </Routes>
     </div>
   );

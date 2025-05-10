@@ -3,15 +3,18 @@ import { Context } from "../../../index";
 import { observer } from "mobx-react-lite";
 import "./Bmr.css";
 
-function Bmr() {
+function Bmr({ memberId }) {
   const { journalStore, store } = useContext(Context);
   const userId = store.user.id;
-  const memberId = store.selectedMemberId || null;
+const userIdToSend = memberId ? null : userId;
+const memberIdToSend = memberId || null;
 
   useEffect(() => {
-    if (userId) {
-      journalStore.fetchConsumed(userId, memberId);
-      journalStore.fetchAllowed(userId, memberId);
+    if (userIdToSend || memberIdToSend) {
+      console.log('memberId in bmr:', memberIdToSend);
+      console.log('userId in bmr:', userIdToSend);
+       journalStore.fetchConsumed(userIdToSend,  memberIdToSend );
+  journalStore.fetchAllowed({ userId: userIdToSend, memberId: memberIdToSend });
     }
   }, [journalStore.currentDate, userId, memberId]);
 

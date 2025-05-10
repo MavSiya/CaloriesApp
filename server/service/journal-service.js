@@ -21,8 +21,8 @@ class JournalService {
   async addDishToMeal({ userId, memberId, date, typeOfMealId, dishId, weight }) {
     let whereClause = '';
     let params = [];
-    console.log({ date, typeOfMealId, userId, memberId, weight });
-
+    console.log("Вот что попало на сервер:" + memberId);
+ console.log( {userId, memberId});
     if (memberId != null) {
       whereClause = 'member_ID = ?';
       params = [date, typeOfMealId, memberId];
@@ -30,7 +30,7 @@ class JournalService {
       whereClause = 'user_ID = ?';
       params = [date, typeOfMealId, userId];
     }
-  
+  console.log("Вот что попало на сервер:" + { date, typeOfMealId, userId, memberId, weight });
     const [journalEntry] = await db.pool.execute(
       `
       SELECT id FROM Journal 

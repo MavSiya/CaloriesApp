@@ -12,8 +12,8 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useState } from 'react';
 
 
-function RegistrationPage() {
-  const { store, registrationStore  } = useContext(Context);
+function CreateMemberPage() {
+  const { store, registrationStore, memberStore  } = useContext(Context);
   const [hasUserInfo, setHasUserInfo] = useState(false);
 
   useEffect(() => {
@@ -54,4 +54,4 @@ function RegistrationPage() {
   );
 }
 
-export default observer(RegistrationPage);
+export default observer(CreateMemberPage);

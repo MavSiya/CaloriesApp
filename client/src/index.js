@@ -8,21 +8,23 @@ import Store from './store/store';
 import RegistrationStore from './store/registrationStore';
 import JournalStore from './store/journalStore';
 import DishStore from './store/dishStore';
+import MemberStore from './store/memberStore';
 
 
 const store = new Store();
 const registrationStore = new RegistrationStore();
 const journalStore = new JournalStore();
 const dishStore = new DishStore();
+const memberStore = new MemberStore();
 
 export const Context = createContext({
-  store,registrationStore,journalStore,dishStore
+  store,registrationStore,journalStore,dishStore,memberStore
 });
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Context.Provider value={{ store, registrationStore, journalStore, dishStore}}>
+  <Context.Provider value={{ store, registrationStore, journalStore, dishStore, memberStore}}>
   <React.StrictMode>
   <BrowserRouter>
       <App />

@@ -4,7 +4,7 @@ import { Context } from '../../../index.js';
 
 import './Meal.css';
 
-const ModalAddDish = ({ isOpen, onClose, typeOfMealId,selectedDate  }) => {
+const ModalAddDish = ({ isOpen, onClose, typeOfMealId, memberId  }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const [type, setType] = useState('dish'); 
@@ -14,7 +14,6 @@ const ModalAddDish = ({ isOpen, onClose, typeOfMealId,selectedDate  }) => {
 
 const { store, journalStore, dishStore } = useContext(Context);
 const userId = store.user.id;
-const memberId = store.selectedMemberId || null;
 
 
   const handleSubmit = async (e) => {

@@ -5,13 +5,15 @@ import ButtonMeal from './ButtonMeal';
 import ModalAddDish from './ModalAddDish';
 import './Meal.css';
 
-const Meal = () => {
+const Meal = ({ memberId }) => {
   const [expandedMealId, setExpandedMealId] = useState(null);
   const [modalMealId, setModalMealId] = useState(null);      
 
   const { journalStore, store } = useContext(Context);
   const userId = store.user.id;
-  const memberId = store.selectedMemberId || null;
+
+  const userIdToSend = memberId ? null : userId;
+const memberIdToSend = memberId || null;
 
   const meals = [
     { id: 1, name: 'Сніданок' },
@@ -24,8 +26,8 @@ const Meal = () => {
     const isExpanding = expandedMealId !== mealId;
     console.log('Toggling meal:', mealId, isExpanding);
     if (isExpanding) {
-      await journalStore.fetchMealDishes(mealId,memberId);
-      await journalStore.fetchMealNutrients({memberId, typeOfMealId:mealId});
+      await journalStore.fetchMealDishes(mealId,memberIdToSend);
+      await journalStore.fetchMealNutrients({memberId: memberIdToSend, typeOfMealId:mealId});
     }
 
     setExpandedMealId(isExpanding ? mealId : null);
@@ -38,8 +40,8 @@ const Meal = () => {
 
   const closeModal = async () => {
     if (modalMealId) {
-      await journalStore.fetchMealDishes(modalMealId,memberId);
-      await journalStore.fetchConsumed(userId, memberId);
+      await journalStore.fetchMealDishes(modalMealId,memberIdToSend);
+      await journalStore.fetchConsumed({ userId: userIdToSend, memberId: memberIdToSend });
     }
     setModalMealId(null);
   };
@@ -67,9 +69,9 @@ const Meal = () => {
     className="delete-button"
     onClick={async () => {
       await journalStore.deleteFromMeal(item.id); 
-      await journalStore.fetchMealDishes(meal.id, memberId); 
-      await journalStore.fetchMealNutrients({ memberId, typeOfMealId: meal.id }); 
-      await journalStore.fetchConsumed(userId, memberId); 
+      await journalStore.fetchMealDishes(meal.id, memberIdToSend); 
+      await journalStore.fetchMealNutrients({ memberId: memberIdToSend, typeOfMealId: meal.id }); 
+      await journalStore.fetchConsumed({ userId: userIdToSend, memberId: memberIdToSend }); 
     }}
   >
     ❌
@@ -112,6 +114,7 @@ const Meal = () => {
           isOpen={true}
           onClose={closeModal}
           typeOfMealId={modalMealId}
+           memberId={memberIdToSend}
         />
       )}
     </div>

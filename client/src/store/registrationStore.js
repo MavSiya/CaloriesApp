@@ -85,7 +85,7 @@ export default class RegistrationStore {
             2: 1.0,
             3: 1.15
         };
-        return Math.round(this.bmr * (activityFactors[this.activityId] || 1) *(goalFactors[this.goalId] || 1) );
+        return Math.round(this.bmr * (activityFactors[this.activityId] || 1) * (goalFactors[this.goalId] || 1));
     }
 
     get proteins() {
@@ -154,7 +154,7 @@ export default class RegistrationStore {
 
         try {
             const data = await userInfoService.getUserInfo();
-            console.log("Отримано з сервера:", data); 
+            console.log("Отримано з сервера:", data);
             this.activityId = data.activity_ID ?? null;
             this.goalId = data.goal_ID ?? null;
             this.weight = data.weight.toString();
@@ -168,4 +168,8 @@ export default class RegistrationStore {
             this.setLoading(false);
         }
     }
+
+
+
+
 }

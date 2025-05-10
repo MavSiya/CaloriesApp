@@ -82,7 +82,7 @@ export default class JournalStore {
     }
   }
 
-  async fetchAllowed(userId, memberId) {
+  async fetchAllowed({userId, memberId}) {
     try {
       const res = await JournalService.getDailyTargets({ userId, memberId });
       this.allowed = res.data;
@@ -128,13 +128,13 @@ export default class JournalStore {
   async fetchMealDishes(typeOfMealId, memberId) {
     try {
       const formattedDate = dayjs(this.currentDate).format('YYYY-MM-DD');
-    console.log('fetchMealDishes params:', formattedDate, typeOfMealId, memberId);
       const response = await JournalService.getMealByDateAndType({
         date: formattedDate,
         typeOfMealId,
         memberId
       });
       console.log('Fetched dishes:', response.data); 
+      console.log('Fetched memberId:', memberId); 
       this.meals[typeOfMealId] = response.data;
     } catch (error) {
       console.error('Error fetching dishes:', error);

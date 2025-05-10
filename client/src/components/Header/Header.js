@@ -15,8 +15,8 @@ import { observer } from "mobx-react-lite";
         <div> <img src="/img/logo.png" alt="logo" /></div>
       <div>
       <ButtonHeader  onClick={() => navigate('/journal')}>Щоденник калорій</ButtonHeader>
-      <ButtonHeader className="btn_small" onClick={() => navigate('/family')}>Сім'я</ButtonHeader>
-      <ButtonHeader className="btn_small" onClick={() => navigate('/dishes')}>Блюда</ButtonHeader>
+      <ButtonHeader className="btn_small" onClick={() => navigate('/group')}>Група</ButtonHeader>
+      <ButtonHeader className="btn_small" onClick={() => navigate('/dishes')}>Страви</ButtonHeader>
       <ButtonHeader className="btn_small" onClick={() => navigate('/menu')}>Меню</ButtonHeader>
       <ButtonHeader onClick={() => navigate('/personal')} className="btn_small">Акаунт</ButtonHeader>
       </div>
