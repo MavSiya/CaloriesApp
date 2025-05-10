@@ -14,6 +14,18 @@ class MemberService {
   }
 
   calculateBMR(weight, height, age, sex, activityKoef, goalPercent) {
+        if (isNaN(weight) || isNaN(height) || isNaN(age) || !['male', 'female'].includes(sex)) {
+        throw new Error('Invalid input values for weight, height, age, or sex.');
+    }
+
+    if (isNaN(activityKoef) || activityKoef <= 0) {
+        throw new Error('Invalid activity coefficient.');
+    }
+
+    if (isNaN(goalPercent) || goalPercent <= 0) {
+        throw new Error('Invalid goal percent.');
+    }
+
     const bmr = sex === 'male'
       ? (10 * weight) + (6.25 * height) - (5 * age) + 5
       : (10 * weight) + (6.25 * height) - (5 * age) - 161;
@@ -22,6 +34,7 @@ class MemberService {
     const proteins = Math.round((calories * 0.3) / 4);
     const fats = Math.round((calories * 0.3) / 9);
     const carbs = Math.round((calories * 0.4) / 4);
+ console.log(`BMR: ${bmr}, Calories: ${calories}, Proteins: ${proteins}, Fats: ${fats}, Carbs: ${carbs}`);
 
     return { calories, proteins, fats, carbs };
   }
@@ -53,9 +66,10 @@ class MemberService {
         `SELECT percent FROM Goals WHERE id = ?`, [goalId]
       );
       const goalPercent = goalRow[0]?.percent || 1.0;
-
+console.log({ goalPercent, activityRow});
       // Расчет КБЖУ с использованием формулы Mifflin-St Jeor
       const { calories, proteins, fats, carbs } = this.calculateBMR(weight, height, age, sex, activityKoef, goalPercent);
+      console.log({ calories, proteins, fats, carbs});
       if (isNaN(calories) || isNaN(proteins) || isNaN(fats) || isNaN(carbs)) {
         throw new Error('Invalid calculations for calories, proteins, fats, or carbs.');
     }

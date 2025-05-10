@@ -41,13 +41,12 @@ class MemberService {
 
   async deleteMember(memberId, userId) {
     try {
-      const response = await fetch(`${API_URL}/delete/${memberId}`, {
+      const response = await fetch(`${API_URL}/${memberId}?userId=${userId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ userId })
+        }
       });
 
       if (!response.ok) throw new Error((await response.json()).message || 'Помилка видалення члена');

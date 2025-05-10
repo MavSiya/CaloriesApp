@@ -28,7 +28,6 @@ class MemberController {
 
   // Видалити мембера
   async deleteMember(req, res, next) {
-     console.log('Удаляем члена контролер', memberId, userId);
     try {
       const userId = req.user.id;
       const { memberId } = req.params;

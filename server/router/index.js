@@ -80,7 +80,7 @@ router.get('/meal-dish', authMiddleware, journalController.getMealByDateAndType)
 //member-controller
 router.post('/create-member', authMiddleware,memberController.createMember);//done
 router.post('/add-info',authMiddleware,  memberController.addMemberInfo);//done
-router.delete('/delete/:memberId', authMiddleware, memberController.deleteMember);
+router.delete('/:memberId', authMiddleware, memberController.deleteMember);
 router.get('/all-member',authMiddleware,  memberController.getAllMembers);//done
 router.get('/member/:memberId',authMiddleware,  memberController.getMemberById);//done
 router.put('/update/:memberId',authMiddleware,  memberController.updateMemberInfo);//done

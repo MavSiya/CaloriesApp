@@ -27,9 +27,9 @@ export default class MemberStore {
     this.activityId = id;
   }
 
-  setGoal(id) {
-    this.goalId = id;
-  }
+  setGoal = (id) => { 
+  this.goalId = id;
+}
 
   setSex(sex) {
     this.sex = sex;
@@ -142,26 +142,23 @@ export default class MemberStore {
     }
   }
 
-  async createMember(userId) {
-    this.setError(null);
-    try {
-      const createdMember = await MemberService.createMember(userId, this.name);
-      await MemberService.addMemberInfo(
-        createdMember.memberId,
-        this.activityId,
-        this.goalId,
-        this.weight,
-        this.height,
-        this.dob,
-        this.sex
-      );
-      await this.fetchAllMembers(userId);
-      return createdMember;
-    } catch (error) {
-      this.setError(error.message);
-      throw error;
-    }
+async createMember(userId) {
+  this.isLoading = true;
+  try {
+    const { name, activityId, goalId, weight, height, dob, sex } = this;
+    console.log('memberData перед відправкою:', {
+  activityId, goalId, weight, height, dob, sex
+});
+    const newMember = await MemberService.createMember(userId, name);
+    await MemberService.addMemberInfo(newMember.id, activityId, goalId, weight, height, dob, sex);
+    this.fetchAllMembers(userId); // оновлення списку
+  } catch (error) {
+    console.error("Помилка при створенні мембера:", error.message);
+    throw error;
+  } finally {
+    this.isLoading = false;
   }
+}
 
   async updateMemberInfo(memberId) {
     this.setError(null);
@@ -189,7 +186,7 @@ export default class MemberStore {
       console.log('Удаляем члена', memberId);
     this.setError(null);
     try {
-      await MemberService.deleteMember(memberId);
+      await MemberService.deleteMember(memberId,userId);
        console.log('Член удален');
       await this.fetchAllMembers(userId);
     } catch (error) {

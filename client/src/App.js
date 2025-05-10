@@ -9,6 +9,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import JournalPage from './components/Journal/JournalPage/JournalPage';
 import DishPage from './components/DishPage/DishPage';
 import GroupPage from './components/GroupPage/GroupPage';
+import CreateMemberPage from './components/MemberRegistrationPage/CreateMemberPage';
 //import MenuPage from './components/MenuPage/MenuPage';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         <Route path="/group/journal/:memberId" element={<JournalPage />} /> {/* Журнал члена группы */}
         <Route path="/dishes" element={<DishPage />} />
         <Route path="/group" element={<GroupPage />} />
+        <Route path="/group/create" element={<CreateMemberPage />} />
       </Routes>
     </div>
   );

@@ -1,54 +1,56 @@
 import Header from '../Header/Header';
-import RegistrationForm from './RegistrationForm/RegistrationForm.js';
-import ActivityChoice from './ActivityChoice/ActivityChoice.js'
-import CalculationKpfc from './CalculationKpfc/CalculationKpfc.js'
-import './RegistrationPage.css'
+import MemberRegistrationForm from './MemberRegistrationForm/MemberRegistrationForm.js';
+import MemberActivityChoice from './MemberActivityChoice/MemberActivityChoice.js'
+import MemberCalculationKpfc from './MemberCalculationKpfc/MemberCalculationKpfc.js'
+import '../RegistrationPage/RegistrationPage.css'
 import ButtonHeader from '../ButtonHeader/ButtonHeader.js';
-import Goal from './Goal/Goal.js';
+import MemberGoal from './MemberGoal/MemberGoal.js';
 
 import { useContext} from 'react';
 import { Context } from '../../index.js';
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 function CreateMemberPage() {
-  const { store, registrationStore, memberStore  } = useContext(Context);
-  const [hasUserInfo, setHasUserInfo] = useState(false);
+  const { store, memberStore  } = useContext(Context);
+   const navigate = useNavigate();
+  const userId = store.user.id;
+ 
 
-  useEffect(() => {
-    registrationStore.loadUserInfo().then(() => {
-      if (registrationStore.dob) {
-        setHasUserInfo(true);
-      }
-    });
-  }, [registrationStore]);
+   useEffect(() => {
+    memberStore.reset();
+  }, [memberStore]);
+
+  const handleCreateMember = async () => {
+    try {
+      await memberStore.createMember(userId);
+      navigate("/group");
+    } catch (error) {
+      console.error("Помилка при створенні мембера:", error.message);
+    }
+  };
+
   return (
    <>
  <Header />
  <main className='main'>
   <div className='form_and_activity'>
- <RegistrationForm />
- <Goal/>
- <ActivityChoice />
+ <MemberRegistrationForm />
+ <MemberGoal/>
+ <MemberActivityChoice />
  </div>
  <div className='calculationKpfc'>
- <CalculationKpfc />
+ <MemberCalculationKpfc />
  </div>
  <ButtonHeader
-    onClick={async () => {
-      if (hasUserInfo) {
-        await registrationStore.updateUserInfo();
-      } else {
-        await registrationStore.submitUserInfo();
-        setHasUserInfo(true); 
-      }
-    }}
-    disabled={!registrationStore.isValid || registrationStore.isLoading}
+    onClick={handleCreateMember}
+          disabled={!memberStore.isValid || memberStore.isLoading}
   >
-    {hasUserInfo ? "Змінити" : "Зберегти"}
+    Створити члена
   </ButtonHeader>
-  <ButtonHeader onClick={() => store.logout()}>Вийти</ButtonHeader>
+ <ButtonHeader onClick={() => navigate("/group")}>Скасувати</ButtonHeader>
  </main>
  </>
   );

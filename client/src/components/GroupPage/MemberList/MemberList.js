@@ -27,6 +27,7 @@ function MemberList() {
           </ul>
         )}
       </div>
+      
     </aside>
   );
 }

@@ -42,7 +42,7 @@ function GroupPage() {
         {memberStore.members.length === 0 ? (
           <div>
             <p>Членів групи немає</p>
-            <ButtonHeader onClick={() => navigate('/personal', { state: { isCreatingMember: true } })}>
+            <ButtonHeader onClick={() => navigate('/group/create', { state: { isCreatingMember: true } })}>
               Додати члена
             </ButtonHeader>
           </div>
@@ -68,6 +68,10 @@ function GroupPage() {
 
             <ButtonHeader type="button" onClick={handleNavigateToJournal}>
               Перейти в журнал
+            </ButtonHeader>
+            
+            <ButtonHeader onClick={() => navigate('/group/create', { state: { isCreatingMember: true } })}>
+              Додати члена
             </ButtonHeader>
           </>
         ) : (
