@@ -16,17 +16,20 @@
   
   .day-button {
     padding: 6px 10px;
-    border-radius: 6px;
+    border-radius: 10px;
     font-size: 14px;
-    background-color: #eee;
+    background-color: white;
     color: #000;
-    border: 1px solid #ccc;
+    border: 1px solid #33994A;
     cursor: pointer;
     transition: background-color 0.2s;
+    width: 50px;
+    height: 40px;
+    text-align: center;
   }
   
   .day-button:hover {
-    background-color: #ddd;
+    background-color: #33994b11;
   }
   
   .day-button.selected {

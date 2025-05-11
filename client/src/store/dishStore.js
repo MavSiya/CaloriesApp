@@ -150,12 +150,12 @@ export default class DishStore {
     }
   }
 
-  async updateDish(updatedDish) {
+async updateDish(dish) {
   try {
-    await DishService.deleteDish(updatedDish.id); 
-    await this.createDish(updatedDish);
-  } catch (error) {
-    throw error;
+    const response = await DishService.updateDish(dish);
+    return response.data;
+  } catch (e) {
+    throw e;
   }
 }
 

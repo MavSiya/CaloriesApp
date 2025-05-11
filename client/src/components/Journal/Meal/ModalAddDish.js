@@ -41,7 +41,8 @@ const userId = store.user.id;
             weight: parseFloat(weight)
           });
         }
-    
+    console.log('Додано страву/інгредієнт:', selectedItem);
+console.log('Викликаємо onClose');
         setMessage('Успішно додано!');
         setTimeout(() => {
           setMessage('');
@@ -73,13 +74,13 @@ const userId = store.user.id;
 
         <div className="type-switcher">
           <button 
-            className={type === 'dish' ? 'active' : ''} 
+            className={type === 'dish' ? 'button-modal-journal active' : 'button-modal-journal'} 
             onClick={() => setType('dish')}
           >
             Страва
           </button>
           <button 
-            className={type === 'ingredient' ? 'active' : ''} 
+            className={type === 'ingredient' ? 'button-modal-journal active' : 'button-modal-journal'} 
             onClick={() => setType('ingredient')}
           >
             Інгредієнт

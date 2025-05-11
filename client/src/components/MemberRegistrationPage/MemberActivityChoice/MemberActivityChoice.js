@@ -1,5 +1,5 @@
 import { activities } from "../../../dataActivity";
-import './MemberActivityChoice.css';
+import './ActivityChoice.css';
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { Context } from "../../../index";

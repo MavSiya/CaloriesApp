@@ -4,6 +4,12 @@
     align-items:center;
 }
 
+.goal_and_activity{
+    display: flex;
+    flex-direction: row;
+    align-items:flex-start;
+}
+
 .main{
     display: flex;
     flex-direction: column;

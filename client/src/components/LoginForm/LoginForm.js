@@ -10,6 +10,8 @@ function LoginForm() {
    
    return (
       <div className="login-form">
+          <div> <img src="/img/logo.png" alt="logo" /></div>
+         
          <input onChange={e => setEmail(e.target.value)}
             value={email}
             type="text"
@@ -22,8 +24,8 @@ function LoginForm() {
             placeholder="Password"
          />
 
-         <button onClick={() => store.login(email, password)}>Логин</button>
-         <button onClick={() => store.registration(email, password)}>Регистрация</button>
+         <button className="button login" onClick={() => store.login(email, password)}>Логин</button>
+         <button className="button login" onClick={() => store.registration(email, password)}>Регистрация</button>
 
       </ div>
    );

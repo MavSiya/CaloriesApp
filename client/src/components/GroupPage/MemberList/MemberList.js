@@ -13,9 +13,9 @@ function MemberList() {
         {memberStore.members.length === 0 ? (
           <div>Членів групи немає</div>
         ) : (
-          <ul>
+          <ul className='member-list-ul'>
             {memberStore.members.map((member) => (
-              <li key={member.id}>
+              <li className='member-list-li' key={member.id}>
                 <button
                   onClick={() => memberStore.setSelectedMember(member)}
                   className={memberStore.selectedMember?.id === member.id ? 'active' : ''}

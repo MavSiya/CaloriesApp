@@ -29,13 +29,16 @@ function RegistrationPage() {
  <main className='main'>
   <div className='form_and_activity'>
  <RegistrationForm />
+ <div className='goal_and_activity'> 
  <Goal/>
  <ActivityChoice />
+ </div>
  </div>
  <div className='calculationKpfc'>
  <CalculationKpfc />
  </div>
- <ButtonHeader
+ <div className='block_buttons'>
+ <ButtonHeader className = "personal"
     onClick={async () => {
       if (hasUserInfo) {
         await registrationStore.updateUserInfo();
@@ -49,6 +52,7 @@ function RegistrationPage() {
     {hasUserInfo ? "Змінити" : "Зберегти"}
   </ButtonHeader>
   <ButtonHeader onClick={() => store.logout()}>Вийти</ButtonHeader>
+   </div>
  </main>
  </>
   );

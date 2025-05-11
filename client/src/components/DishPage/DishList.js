@@ -1,4 +1,5 @@
 import AddDishModal from './AddDishModal';
+import AddIngredientToBdModal from './AddIngredientModal/AddIngredientToBdModal.js'; 
 import './DishList.css';
 
 import React, { useEffect, useState } from 'react';
@@ -9,6 +10,7 @@ import { observer } from "mobx-react-lite";
 const DishList = () => {
   const { dishStore } = useContext(Context);
   const [showAddModal, setShowAddModal] = useState(false);
+ const [showAddIngredientModal, setShowAddIngredientModal] = useState(false); 
 
   useEffect(() => {
     dishStore.fetchAllDishesWithBmr();
@@ -18,22 +20,22 @@ const DishList = () => {
     setShowAddModal(false);
   };
 
-const handleDelete = async (dishId) => {
-  if (window.confirm('Ви впевнені, що хочете видалити цю страву?')) {
-    try {
-      await dishStore.deleteDish(dishId);
-      await dishStore.fetchAllDishesWithBmr();
-    } catch (error) {
-      alert('Помилка при видаленні страви: ' + error.message);
+  const handleDelete = async (dishId) => {
+    if (window.confirm('Ви впевнені, що хочете видалити цю страву?')) {
+      try {
+        await dishStore.deleteDish(dishId);
+        await dishStore.fetchAllDishesWithBmr();
+      } catch (error) {
+        alert('Помилка при видаленні страви: ' + error.message);
+      }
     }
-  }
-};
-  
+  };
+
 
   return (
     <div className="dish-list-container">
       <h1>Перелік страв</h1>
-
+     
       {dishStore.isLoading ? (
         <div>Завантаження...</div>
       ) : dishStore.error ? (
@@ -52,11 +54,11 @@ const handleDelete = async (dishId) => {
               <tr key={dish.id}>
                 <td>{dish.title}</td>
                 <td>{dish.type}</td>
-                <td>
+                <td className='td_prelast'>
                   {dish.calories || 0} / {dish.proteins || 0} / {dish.fats || 0} / {dish.carbs || 0}
                 </td>
-                <td>
-                  <button onClick={() => handleDelete(dish.id)}>🗑</button>
+                <td className='td_last'>
+                  <button onClick={() => handleDelete(dish.id)} style={{ border: "none", background: "transparent", cursor: "pointer" }}><img src="./img/btn_delete.png" alt="Delete" width="20" height="20" /></button>
                 </td>
 
               </tr>
@@ -71,11 +73,18 @@ const handleDelete = async (dishId) => {
       >
         Додати страву
       </button>
+        <button className="add-dish-button" onClick={() => setShowAddIngredientModal(true)}>Додати інгредієнт</button>
 
       {showAddModal && (
         <AddDishModal
           onClose={() => setShowAddModal(false)}
           onSave={addDish}
+        />
+      )}
+      
+ {showAddIngredientModal && (
+        <AddIngredientToBdModal
+          onClose={() => setShowAddIngredientModal(false)}
         />
       )}
     </div>

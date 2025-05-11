@@ -64,7 +64,7 @@ router.get('/get-dish-type/:typeId', authMiddleware, dishController.getDishTypeB
 router.get('/get-all-dish-types', authMiddleware, dishController.getAllDishTypes);//done
 
 //ingredient-controller
-router.get('/add-ingredient-todb', authMiddleware, ingredientController.addIngredientToDB);
+router.post('/add-ingredient-todb', authMiddleware, ingredientController.addIngredientToDB);
 router.get('/search-ingredient', authMiddleware, ingredientController.findIngredient);
 
 //journal-controller

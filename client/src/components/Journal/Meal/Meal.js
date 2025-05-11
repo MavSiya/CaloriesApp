@@ -4,16 +4,17 @@ import { Context } from '../../../index.js';
 import ButtonMeal from './ButtonMeal';
 import ModalAddDish from './ModalAddDish';
 import './Meal.css';
+import deleteIcon from '../../../styles/icon/btn_delete.png';
 
 const Meal = ({ memberId }) => {
   const [expandedMealId, setExpandedMealId] = useState(null);
-  const [modalMealId, setModalMealId] = useState(null);      
+  const [modalMealId, setModalMealId] = useState(null);
 
   const { journalStore, store } = useContext(Context);
   const userId = store.user.id;
 
   const userIdToSend = memberId ? null : userId;
-const memberIdToSend = memberId || null;
+  const memberIdToSend = memberId || null;
 
   const meals = [
     { id: 1, name: 'Сніданок' },
@@ -26,8 +27,8 @@ const memberIdToSend = memberId || null;
     const isExpanding = expandedMealId !== mealId;
     console.log('Toggling meal:', mealId, isExpanding);
     if (isExpanding) {
-      await journalStore.fetchMealDishes(mealId,memberIdToSend);
-      await journalStore.fetchMealNutrients({memberId: memberIdToSend, typeOfMealId:mealId});
+      await journalStore.fetchMealDishes(mealId, memberIdToSend);
+      await journalStore.fetchMealNutrients({ memberId: memberIdToSend, typeOfMealId: mealId });
     }
 
     setExpandedMealId(isExpanding ? mealId : null);
@@ -40,10 +41,12 @@ const memberIdToSend = memberId || null;
 
   const closeModal = async () => {
     if (modalMealId) {
-      await journalStore.fetchMealDishes(modalMealId,memberIdToSend);
+      await journalStore.fetchMealDishes(modalMealId, memberIdToSend);
       await journalStore.fetchConsumed({ userId: userIdToSend, memberId: memberIdToSend });
+      await journalStore.fetchMealNutrients({ memberId: memberIdToSend, typeOfMealId: modalMealId });
     }
     setModalMealId(null);
+      window.location.reload();
   };
 
   return (
@@ -63,19 +66,22 @@ const memberIdToSend = memberId || null;
                 {journalStore.meals[meal.id]?.length > 0 ? (
                   journalStore.meals[meal.id].map((item, index) => (
                     <div key={index} className="dish-item">
-                      <span className="dish-name">{item.dishTitle || item.ingredientTitle}</span>
-                      <span className="dish-weight">{item.weight} г</span>
-                      <button
-    className="delete-button"
-    onClick={async () => {
-      await journalStore.deleteFromMeal(item.id); 
-      await journalStore.fetchMealDishes(meal.id, memberIdToSend); 
-      await journalStore.fetchMealNutrients({ memberId: memberIdToSend, typeOfMealId: meal.id }); 
-      await journalStore.fetchConsumed({ userId: userIdToSend, memberId: memberIdToSend }); 
-    }}
-  >
-    ❌
-  </button>
+                      <div className='dish-and-gram'>
+                        <span className="dish-name">{item.dishTitle || item.ingredientTitle}</span>
+                        <span className="dish-weight">{item.weight} г</span>
+                      </div>
+                      <button style={{ border: "none", background: "transparent", cursor: "pointer" }}
+                        className="delete-button"
+                        onClick={async () => {
+                          await journalStore.deleteFromMeal(item.id);
+                          await journalStore.fetchMealDishes(meal.id, memberIdToSend);
+                          await journalStore.fetchMealNutrients({ memberId: memberIdToSend, typeOfMealId: meal.id });
+                          await journalStore.fetchConsumed({ userId: userIdToSend, memberId: memberIdToSend });
+                           window.location.reload();
+                        }}
+                      >
+                        <img src={deleteIcon} alt="Delete" width="20" height="20" />
+                      </button>
                     </div>
                   ))
                 ) : (
@@ -101,7 +107,7 @@ const memberIdToSend = memberId || null;
                 ))}
               </div>
 
-              <button className="add-dish-button" onClick={() => openModal(meal.id)}>
+              <button className="add-dish-button-journal" onClick={() => openModal(meal.id)}>
                 +
               </button>
             </div>
@@ -114,7 +120,7 @@ const memberIdToSend = memberId || null;
           isOpen={true}
           onClose={closeModal}
           typeOfMealId={modalMealId}
-           memberId={memberIdToSend}
+          memberId={memberIdToSend}
         />
       )}
     </div>

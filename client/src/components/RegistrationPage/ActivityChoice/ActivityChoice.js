@@ -25,11 +25,11 @@ function ActivityChoice({ isForMember = false }) {
             <ul className="activities">
                 {activities.map((activity) => (
                     <li key={activity.id}>
-                        <button
+                        <button 
                             className={`button_activity ${selectedActivityId === activity.id ? "active" : ""}`}
                             onClick={() => handleSelect(activity.id)}
                         >
-                            <h2>{activity.title}</h2>
+                            <h2 className="activities_h2">{activity.title}</h2>
                             <span>{activity.description}</span>
                         </button>
                     </li>

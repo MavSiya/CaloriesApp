@@ -14,27 +14,38 @@
   .dishes-table th, .dishes-table td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #33994b3b;
   }
   
   .dishes-table th {
-    background-color: #f5f5f5;
+    background-color: #cdfcd8;
     font-weight: bold;
   }
   
   .add-dish-button {
     background-color: #4CAF50;
-    width: 100px;
+    width: 172px;
     height: 60px;
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 15px;
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+    text-align: center;
   }
   
   .add-dish-button:hover {
     background-color: #45a049;
+  }
+
+  .td_prelast{
+    width: 220px;
+  }
+
+   .td_last{
+    padding: 0;
+    width: 20px;
+    border-bottom: 0;
   }

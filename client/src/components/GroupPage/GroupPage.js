@@ -7,6 +7,7 @@ import MemberForm from "./MemberForm/MemberForm";
 import CalculationKpfc from "../RegistrationPage/CalculationKpfc/CalculationKpfc";
 import ButtonHeader from "../ButtonHeader/ButtonHeader";
 import { useNavigate } from "react-router-dom"; 
+import './GroupPage.css'
 
 function GroupPage() {
   const { memberStore, store } = useContext(Context);
@@ -42,7 +43,7 @@ function GroupPage() {
         {memberStore.members.length === 0 ? (
           <div>
             <p>Членів групи немає</p>
-            <ButtonHeader onClick={() => navigate('/group/create', { state: { isCreatingMember: true } })}>
+            <ButtonHeader className="button-groupPage" onClick={() => navigate('/group/create', { state: { isCreatingMember: true } })}>
               Додати члена
             </ButtonHeader>
           </div>
@@ -50,7 +51,8 @@ function GroupPage() {
           <>
             <MemberForm />
             <CalculationKpfc isForMember />
-            <ButtonHeader
+            
+            <ButtonHeader className="button-groupPage"
   onClick={async () => {
     // Оновлюємо дані для вибраного члена
     if (selected) {
@@ -62,15 +64,15 @@ function GroupPage() {
   Зберегти зміни
 </ButtonHeader>
 
-           <ButtonHeader type="button" onClick={handleDeleteMember}>
+           <ButtonHeader className="button-groupPage" type="button" onClick={handleDeleteMember}>
               Видалити члена
             </ButtonHeader>
 
-            <ButtonHeader type="button" onClick={handleNavigateToJournal}>
+            <ButtonHeader className="button-groupPage" type="button" onClick={handleNavigateToJournal}>
               Перейти в журнал
             </ButtonHeader>
             
-            <ButtonHeader onClick={() => navigate('/group/create', { state: { isCreatingMember: true } })}>
+            <ButtonHeader className="button-groupPage" onClick={() => navigate('/group/create', { state: { isCreatingMember: true } })}>
               Додати члена
             </ButtonHeader>
           </>

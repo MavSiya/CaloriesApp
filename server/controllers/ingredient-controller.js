@@ -8,10 +8,12 @@ class IngredientController {
   async addIngredientToDB(req, res, next) {
     try {
       const { title, calories, proteins, fats, carbs } = req.body;
+      console.log('BODY:', req.body); 
       await ingredientService.addIngredientToDB(title, calories, proteins, fats, carbs);
 
       res.json({ message: 'Інгредієнт додано у базу данних'});
     } catch (e) {
+       console.error('Server error:', e);
       next(e);
     }
   }

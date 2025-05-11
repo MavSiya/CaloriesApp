@@ -1,4 +1,4 @@
-import './MemberRegistrationForm.css';
+import './RegistrationForm.css';
 
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";

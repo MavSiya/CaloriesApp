@@ -1,5 +1,5 @@
 import JournalService from "../services/JournalService";
-
+import { runInAction } from 'mobx';
 import { makeAutoObservable } from "mobx";
 import dayjs from "dayjs";
 
@@ -76,7 +76,9 @@ export default class JournalStore {
         fats: res.data.totalFats,
         carbs: res.data.totalCarbs
       };
+       runInAction(() => {
       this.consumed = normalized;
+        });
     } catch (e) {
       console.error("Error fetching consumed nutrients", e);
     }

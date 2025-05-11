@@ -8,7 +8,7 @@
     width: 100%;
     padding: 15px;
     margin: 5px 0;
-    background-color: #f0f0f0;
+    background-color: #edfef1;
     border: none;
     border-radius: 5px;
     font-size: 18px;
@@ -33,13 +33,14 @@
     color: #666;
   }
   
-  /* Остальные стили остаются без изменений */
   .meal-button:hover {
-    background-color: #e0e0e0;
+    background-color: #33994A;
+    color: white;
   }
   
   .meal-button.active {
-    background-color: #d0d0d0;
+    background-color: #33994A;
+    color: white;
   }
   
   .meal-details {
@@ -85,10 +86,10 @@
     color: #666;
   }
   
-  .add-dish-button {
+  .add-dish-button-journal {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 10px;
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -97,13 +98,15 @@
     margin: 15px auto 0;
     display: block;
     transition: background-color 0.3s;
+    text-align: center;
+    padding: 0;
   }
   
-  .add-dish-button:hover {
+  .add-dish-button-journal:hover {
     background-color: #45a049;
   }
   
-  /* Стили для модального окна остаются без изменений */
+  /* Стилі для модального вікна*/
   .modal-overlay {
     position: fixed;
     top: 0;
@@ -165,10 +168,32 @@
     padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
-    width: 100%;
+    width: 100px;
     font-size: 16px;
+    text-align: center;
   }
   
   .modal-submit:hover {
     background-color: #45a049;
   }
+
+  .type-switcher{
+     margin: 10px;
+    margin-left: 0;
+  text-align: center;
+  }
+
+  .button-modal-journal{
+    margin-bottom: 10px;
+    width: 100px;
+    margin-right: 10px;
+  }
+
+  .delete-button{
+    width: 50px;
+margin:0;
+  }
+
+.dish-weight {
+  margin-left: 6px;
+}

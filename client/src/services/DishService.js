@@ -8,7 +8,10 @@ export default class DishService {
   static async deleteDish(dishId) {
     return $api.delete(`/dish/${dishId}`);
   }
-
+  
+static async updateDish(dish) {
+  return $api.put(`/dishes/${dish.id}`, dish);
+}
   static async addIngredient({dishId, title, weight}) {
     return $api.post('/add-ingredient-todish', { dishId, title, weight });
   }

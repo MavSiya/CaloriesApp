@@ -10,7 +10,8 @@ import JournalPage from './components/Journal/JournalPage/JournalPage';
 import DishPage from './components/DishPage/DishPage';
 import GroupPage from './components/GroupPage/GroupPage';
 import CreateMemberPage from './components/MemberRegistrationPage/CreateMemberPage';
-//import MenuPage from './components/MenuPage/MenuPage';
+import MenuPage from './components/MenuPage/MenuPage';
+
 
 function App() {
   const { store } = useContext(Context);
@@ -43,6 +44,7 @@ function App() {
         <Route path="/dishes" element={<DishPage />} />
         <Route path="/group" element={<GroupPage />} />
         <Route path="/group/create" element={<CreateMemberPage />} />
+        <Route path="/menu" element={<MenuPage />} />
       </Routes>
     </div>
   );
