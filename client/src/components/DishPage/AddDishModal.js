@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import { Context } from '../../index.js';
 import { observer } from "mobx-react-lite";
-
-
 import AddIngredientModal from './AddIngredientModal';
 import './Modal.css';
 

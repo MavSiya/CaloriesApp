@@ -1,0 +1,44 @@
+.shopping-list {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.shopping-list h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.product-item:last-child {
+  border-bottom: none;
+}
+
+.product-checkbox {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+.product-name {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Стиль для отмеченных элементов */
+.product-checkbox:checked + .product-name {
+  color: #888;
+  text-decoration: line-through;
+}

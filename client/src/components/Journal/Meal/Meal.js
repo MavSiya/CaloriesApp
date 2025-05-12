@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../../index.js';
 import ButtonMeal from './ButtonMeal';

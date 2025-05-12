@@ -7,7 +7,6 @@ class JournalController {
     try {
       const userId = req.user.id;
       const {memberId, date, typeOfMealId, dishId, weight } = req.body;
-       console.log("Вот что попало на сервер в контролер:" + memberId);
       if (!userId && !memberId) {
         return res.status(400).json({ error: 'Не вказано користувача або члена групи' });
       }
@@ -51,7 +50,6 @@ class JournalController {
     try {
       const userId = req.user.id;
       const {memberId, date, typeOfMealId } = req.query;
-      console.log('meal-nutrients req.query:', req.query); 
       const nutrients = await journalService.calculateMealNutrients(userId, memberId, date, typeOfMealId);
       return res.json(nutrients);
     } catch (error) {
@@ -90,7 +88,6 @@ class JournalController {
     try {
       const userId = req.user.id;
       const { date, typeOfMealId, memberId } = req.query;
-      console.log('QUERY:', req.query);
       if (!date || !typeOfMealId || (!userId && !memberId)) {
         return res.status(400).json({ message: 'Missing required parameters' });
       }

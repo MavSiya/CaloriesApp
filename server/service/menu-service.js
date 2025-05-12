@@ -3,6 +3,7 @@ const db = require('../data-base/db');
 class MenuService {
   // Додати страву або інгредієнт до меню
   async addDishOrIngredientToMenu({ dayOfWeekId, typeOfMealId, userId, dishId = null, ingredientId = null }) {
+
     const [menu] = await db.pool.execute(
       `
       SELECT id FROM MenuPerWeek

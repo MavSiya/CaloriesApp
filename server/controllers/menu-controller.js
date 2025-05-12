@@ -1,4 +1,4 @@
-const menuService = require('../service/menu-service');
+const menuService = require('../service/menu-service.js');
 
 class MenuController {
   async addDishOrIngredientToMenu(req, res, next) {
