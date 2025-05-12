@@ -2,7 +2,7 @@ const db = require('../data-base/db');
 
 class MenuService {
   // Додати страву або інгредієнт до меню
-  async addDishOrIngredientToMenu({ dayOfWeekId, typeOfMealId, userId, dishId = null, ingredientId = null }) {
+  async addDishOrIngredientToMenu({ dayOfWeekId, typeOfMealId, userId, dishId = null, ingredientId = null,weight=null }) {
 
     const [menu] = await db.pool.execute(
       `
@@ -28,10 +28,10 @@ class MenuService {
 
     await db.pool.execute(
       `
-      INSERT INTO MPW_Dish (dish_ID, ingredient_ID, menuPerWeek_ID)
-      VALUES (?, ?, ?)
+      INSERT INTO MPW_Dish (dish_ID, ingredient_ID, menuPerWeek_ID, weight_ingredient)
+      VALUES (?, ?, ?, ?)
       `,
-      [dishId, ingredientId, menuId]
+      [dishId, ingredientId, menuId,weight]
     );
 
     return { message: 'Added successfully to menu' };
@@ -41,7 +41,7 @@ class MenuService {
   async getMenu(userId) {
     const [menu] = await db.pool.execute(
       `
-      SELECT mpw.id, d.title AS dishTitle, i.title AS ingredientTitle, 
+      SELECT mpw.id, d.title AS dishTitle, i.title AS ingredientTitle, mpw.weight_ingredient, 
              dow.title AS day, tm.title AS meal
       FROM MPW_Dish mpw
       JOIN MenuPerWeek mp ON mp.id = mpw.menuPerWeek_ID
@@ -95,7 +95,7 @@ class MenuService {
       SELECT ing.id, ing.title, SUM(ing.weight) AS totalWeight
       FROM (
         -- Прямі інгредієнти з меню
-        SELECT i.id, i.title, 100 AS weight
+        SELECT i.id, i.title, mpw.weight_ingredient AS weight
         FROM MPW_Dish mpw
         JOIN MenuPerWeek mp ON mp.id = mpw.menuPerWeek_ID
         JOIN Ingredients i ON i.id = mpw.ingredient_ID

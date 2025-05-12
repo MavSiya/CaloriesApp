@@ -57,7 +57,7 @@ export default class MenuStore {
   }
 
 getDishesFor(dayOfWeekId, mealId) {
-  const menuCopy = toJS(this.menu); // Преобразуем menu в обычный объект
+  const menuCopy = toJS(this.menu); 
 
   if (!menuCopy || menuCopy.length === 0) {
     console.log('Menu is empty, no dishes to fetch');
@@ -85,7 +85,6 @@ getDishesFor(dayOfWeekId, mealId) {
     this.setLoading(true);
     try {
       const response = await MenuService.getMenu(userId);
-      console.log('Fetched menu:', response.data);
       runInAction(() => {
         this.setMenu(response.data);
         this.setIsUpdated(false);
@@ -98,7 +97,7 @@ getDishesFor(dayOfWeekId, mealId) {
     }
   }
 
-  async addDish({ userId, dayOfWeekId, typeOfMealId, dishId,ingredientId }) {
+  async addDish({ userId, dayOfWeekId, typeOfMealId, dishId,ingredientId,weight }) {
     this.setLoading(true);
     try {
       await MenuService.addDishOrIngredientToMenu({
@@ -106,6 +105,7 @@ getDishesFor(dayOfWeekId, mealId) {
         typeOfMealId,
         dishId,
         ingredientId,
+        weight
       });
       await this.fetchMenu(userId);
     } catch (e) {

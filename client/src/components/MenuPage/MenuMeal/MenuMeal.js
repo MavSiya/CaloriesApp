@@ -28,6 +28,7 @@ const MenuMeal = ({ dayOfWeekId }) => {
 
   const closeModal = async () => {
     await menuStore.fetchMenu(userId);
+      await menuStore.fetchAggregatedIngredients(userId); 
     setModalMealId(null);
   };
 
@@ -39,7 +40,6 @@ const MenuMeal = ({ dayOfWeekId }) => {
     <div className="meal-container">
       {meals.map((meal) => {
         const dishes = menuStore.getDishesFor(dayOfWeekId, meal.id);
-        console.log('Dishes for', meal.name, 'on day', dayOfWeekId, ':', dishes);
         return (
           <div key={meal.id} className="meal-block">
             <div className="meal-header">
@@ -56,6 +56,9 @@ const MenuMeal = ({ dayOfWeekId }) => {
                   <div key={item.id} className="dish-item">
                     <div className="dish-and-gram">
                       <span className="dish-name">{item.dishTitle || item.ingredientTitle}</span>
+                      {item.ingredientTitle && item.weight_ingredient && (
+                        <span className="dish-weight">{`${item.weight_ingredient} г`}</span>
+                      )}
                     </div>
                     <button
                       className="delete-button"
@@ -75,14 +78,14 @@ const MenuMeal = ({ dayOfWeekId }) => {
       })}
 
       {modalMealId && (
-        
+
         <ModalAddDishToMenu
           isOpen={true}
           onClose={closeModal}
           typeOfMealId={modalMealId}
-           dayOfWeekId={dayOfWeekId}
+          dayOfWeekId={dayOfWeekId}
         />
-      ) }
+      )}
     </div>
   );
 };

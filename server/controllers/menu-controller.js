@@ -4,8 +4,8 @@ class MenuController {
   async addDishOrIngredientToMenu(req, res, next) {
     try {
       const userId = req.user.id;
-      const { dayOfWeekId, typeOfMealId,dishId, ingredientId } = req.body;
-      const result = await menuService.addDishOrIngredientToMenu({ dayOfWeekId, typeOfMealId, userId, dishId, ingredientId });
+      const { dayOfWeekId, typeOfMealId,dishId, ingredientId,weight } = req.body;
+      const result = await menuService.addDishOrIngredientToMenu({ dayOfWeekId, typeOfMealId, userId, dishId, ingredientId,weight });
       return res.json(result);
     } catch (error) {
       next(error);

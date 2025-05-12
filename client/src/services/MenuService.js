@@ -1,8 +1,8 @@
 import $api from "../http";
 
 export default class MenuService {
-static async addDishOrIngredientToMenu({ dayOfWeekId, typeOfMealId,dishId, ingredientId }) {
-  const response = await $api.post('/add-in-menu', { dayOfWeekId, typeOfMealId, dishId, ingredientId });
+static async addDishOrIngredientToMenu({ dayOfWeekId, typeOfMealId,dishId, ingredientId,weight }) {
+  const response = await $api.post('/add-in-menu', { dayOfWeekId, typeOfMealId, dishId, ingredientId,weight });
   return response.data; 
 }
 

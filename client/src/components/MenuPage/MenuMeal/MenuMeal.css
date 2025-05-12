@@ -197,3 +197,9 @@ margin:0;
 .dish-weight {
   margin-left: 6px;
 }
+
+.dish-weight {
+  margin-left: 6px;
+  font-size: 14px;
+  color: #666;
+}
