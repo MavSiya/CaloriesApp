@@ -21,7 +21,6 @@ class JournalService {
   async addDishToMeal({ userId, memberId, date, typeOfMealId, dishId, weight }) {
     let whereClause = '';
     let params = [];
-    console.log("Вот что попало на сервер:" + memberId);
  console.log( {userId, memberId});
     if (memberId != null) {
       whereClause = 'member_ID = ?';
@@ -30,7 +29,6 @@ class JournalService {
       whereClause = 'user_ID = ?';
       params = [date, typeOfMealId, userId];
     }
-  console.log("Вот что попало на сервер:" + { date, typeOfMealId, userId, memberId, weight });
     const [journalEntry] = await db.pool.execute(
       `
       SELECT id FROM Journal 
@@ -229,6 +227,97 @@ class JournalService {
 
     return mealItems;
   }
+
+
+async getJournalDay({ userId, memberId, date }) {
+  if (!userId && !memberId) {
+    throw new Error('Не передано userId або memberId');
+  }
+
+  let whereClause = '';
+  let params = [date];
+  if (memberId != null) {
+    whereClause = 'member_ID = ?';
+    params.push(memberId);
+  } else {
+    whereClause = 'user_ID = ?';
+    params.push(userId);
+  }
+
+  // Запрос для получения данных по дням и типам приемов пищи с информацией из таблицы journal_dish
+  const [rows] = await db.pool.execute(
+    `SELECT j.id, j.date, j.typeOfMeal_ID, j.dayOfTheWeek_ID, t.title as typeOfMealTitle,
+            jd.dish_ID, jd.weight
+     FROM Journal j
+     LEFT JOIN TypesOfMeal t ON j.typeOfMeal_ID = t.id
+     LEFT JOIN Journal_Dish jd ON j.id = jd.journal_ID
+     WHERE j.date = ? AND ${whereClause}`,
+    params
+  );
+
+  if (rows.length === 0) {
+    return [];  // Если нет данных, возвращаем пустой массив
+  }
+
+  // Создадим объект для группировки по типу приемов пищи
+  const groupedMeals = rows.reduce((acc, row) => {
+    const mealType = row.typeOfMealTitle;
+
+    if (!acc[mealType]) {
+      acc[mealType] = [];
+    }
+
+    acc[mealType].push({
+      dishId: row.dish_ID,
+      weight: row.weight,
+    });
+
+    return acc;
+  }, {});
+
+  // Для каждого типа приема пищи получим информацию о блюде и нутриентах
+  for (let mealType in groupedMeals) {
+    const mealItems = groupedMeals[mealType];
+
+    // Получаем информацию о блюде для каждого приема пищи
+    const dishesInfo = await Promise.all(
+      mealItems.map(async (meal) => {
+        const [dishInfo] = await db.pool.execute(
+          `SELECT title
+           FROM Dishes
+           WHERE id = ?`,
+          [meal.dishId]
+        );
+
+        // Получаем информацию о БЖУ из таблицы dishbmr
+        const [bmrInfo] = await db.pool.execute(
+          `SELECT calories, proteins, fats, carbs
+           FROM DishBMR
+           WHERE dish_ID = ?`,
+          [meal.dishId]
+        );
+
+        return {
+          ...meal,
+          name: dishInfo[0]?.title || 'Неизвестное блюдо',
+          calories: bmrInfo[0]?.calories || 0,
+          proteins: bmrInfo[0]?.proteins || 0,
+          fats: bmrInfo[0]?.fats || 0,
+          carbs: bmrInfo[0]?.carbs || 0,
+        };
+      })
+    );
+
+    // Обновим groupedMeals с полными данными о блюде и нутриентах
+    groupedMeals[mealType] = dishesInfo;
+  }
+
+  return groupedMeals;
+}
+
+
+
+
 
   
 }

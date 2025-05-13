@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 function RegistrationPage() {
   const { store, registrationStore  } = useContext(Context);
   const [hasUserInfo, setHasUserInfo] = useState(false);
+const [pdfModalOpen, setPdfModalOpen] = useState(false);
 
   useEffect(() => {
     registrationStore.loadUserInfo().then(() => {
@@ -52,10 +53,12 @@ function RegistrationPage() {
     {hasUserInfo ? "Змінити" : "Зберегти"}
   </ButtonHeader>
   <ButtonHeader onClick={() => store.logout()}>Вийти</ButtonHeader>
+
    </div>
  </main>
  </>
   );
+  
 }
 
 export default observer(RegistrationPage);

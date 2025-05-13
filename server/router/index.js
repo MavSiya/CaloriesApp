@@ -52,45 +52,44 @@ router.get('/userinfo', authMiddleware, userInfoController.getUserInfo);
 
 
 //dish-controller
-router.post('/create', authMiddleware, dishController.createDish); //done
-router.delete('/dish/:id', authMiddleware, dishController.deleteDish);//done
-router.post('/add-ingredient-todish', authMiddleware, dishController.addIngredient);//done
-router.put('/update-ingredient', authMiddleware, dishController.updateIngredient);//done
+router.post('/create', authMiddleware, dishController.createDish);
+router.delete('/dish/:id', authMiddleware, dishController.deleteDish);
+router.post('/add-ingredient-todish', authMiddleware, dishController.addIngredient);
+router.put('/update-ingredient', authMiddleware, dishController.updateIngredient);
 router.delete('/remove-ingredient', authMiddleware, dishController.removeIngredient);
-router.get('/all-dishes', authMiddleware, dishController.getAllDishes);//done
-router.get('/all-dishes-bmr', authMiddleware, dishController.getAllDishesWithBmr);//done
-router.get('/search-dish', authMiddleware, dishController.findDish);//done
-router.get('/get-dish-type/:typeId', authMiddleware, dishController.getDishTypeById);//done
-router.get('/get-all-dish-types', authMiddleware, dishController.getAllDishTypes);//done
+router.get('/all-dishes', authMiddleware, dishController.getAllDishes);
+router.get('/all-dishes-bmr', authMiddleware, dishController.getAllDishesWithBmr);
+router.get('/search-dish', authMiddleware, dishController.findDish);
+router.get('/get-dish-type/:typeId', authMiddleware, dishController.getDishTypeById);
+router.get('/get-all-dish-types', authMiddleware, dishController.getAllDishTypes);
 
 //ingredient-controller
 router.post('/add-ingredient-todb', authMiddleware, ingredientController.addIngredientToDB);
 router.get('/search-ingredient', authMiddleware, ingredientController.findIngredient);
 
 //journal-controller
-router.post('/add-dish', authMiddleware, journalController.addDishToMeal);//done
-router.post('/add-ingredient', authMiddleware, journalController.addIngredientToMeal);//done
-router.delete('/delete/:journalDishId', authMiddleware, journalController.deleteFromMeal);//done
-router.get('/meal-nutrients', authMiddleware, journalController.calculateMealNutrients);//done
-router.get('/daily-nutrients', authMiddleware, journalController.calculateTotalDailyNutrients);//done
+router.post('/add-dish', authMiddleware, journalController.addDishToMeal);
+router.post('/add-ingredient', authMiddleware, journalController.addIngredientToMeal);
+router.delete('/delete/:journalDishId', authMiddleware, journalController.deleteFromMeal);
+router.get('/meal-nutrients', authMiddleware, journalController.calculateMealNutrients);
+router.get('/daily-nutrients', authMiddleware, journalController.calculateTotalDailyNutrients);
 router.get('/target', authMiddleware, journalController.getDailyTarget);
-router.get('/meal-dish', authMiddleware, journalController.getMealByDateAndType);//done
-
+router.get('/meal-dish', authMiddleware, journalController.getMealByDateAndType);
 
 //member-controller
-router.post('/create-member', authMiddleware,memberController.createMember);//done
-router.post('/add-info',authMiddleware,  memberController.addMemberInfo);//done
+router.post('/create-member', authMiddleware,memberController.createMember);
+router.post('/add-info',authMiddleware,  memberController.addMemberInfo);
 router.delete('/:memberId', authMiddleware, memberController.deleteMember);
-router.get('/all-member',authMiddleware,  memberController.getAllMembers);//done
-router.get('/member/:memberId',authMiddleware,  memberController.getMemberById);//done
-router.put('/update/:memberId',authMiddleware,  memberController.updateMemberInfo);//done
-router.get('/info/:memberId',authMiddleware,  memberController.getMemberInfo);//done
+router.get('/all-member',authMiddleware,  memberController.getAllMembers);
+router.get('/member/:memberId',authMiddleware,  memberController.getMemberById);
+router.put('/update/:memberId',authMiddleware,  memberController.updateMemberInfo);
+router.get('/info/:memberId',authMiddleware,  memberController.getMemberInfo);
 
-////menu-controller
-router.post('/add-in-menu',authMiddleware, menuController.addDishOrIngredientToMenu);//done
-router.get('/menu', authMiddleware,menuController.getMenu);//done
-router.delete('/menu/:mpwDishId', authMiddleware,menuController.deleteFromMenu);//done
-router.put('/menu/:mpwDishId', authMiddleware,menuController.updateMenuItem);//done
-router.get('/ingredients/aggregate', authMiddleware,menuController.getAggregatedIngredientsList);//done
+//menu-controller
+router.post('/add-in-menu',authMiddleware, menuController.addDishOrIngredientToMenu);
+router.get('/menu', authMiddleware,menuController.getMenu);
+router.delete('/menu/:mpwDishId', authMiddleware,menuController.deleteFromMenu);
+router.put('/menu/:mpwDishId', authMiddleware,menuController.updateMenuItem);
+router.get('/ingredients/aggregate', authMiddleware,menuController.getAggregatedIngredientsList);
 
 module.exports = router
