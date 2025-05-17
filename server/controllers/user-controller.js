@@ -1,6 +1,6 @@
-const userService = require('../service/user-service');
-const {validationResult} = require('express-validator');
-const ApiError = require('../exceptions/api-error');
+import userService from '../service/user-service.js';
+import {validationResult} from 'express-validator';
+import ApiError from '../exceptions/api-error.js';
 
 class UserController{
 async registration(req, res, next){
@@ -73,4 +73,4 @@ return res.json(users);
 
 }
 
-module.exports = new UserController();
+export default new UserController();

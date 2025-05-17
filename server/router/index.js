@@ -1,15 +1,15 @@
-const Router = require('express').Router;
-const userController = require('../controllers/user-controller');
-const userInfoController = require('../controllers/user-info-controller');
-const dishController = require('../controllers/dish-controller');
-const ingredientController = require('../controllers/ingredient-controller');
-const journalController = require('../controllers/journal-controller');
-const memberController = require('../controllers/member-controller');
-const menuController = require('../controllers/menu-controller');
+import { Router } from 'express';
+import userController from '../controllers/user-controller.js';
+import userInfoController from '../controllers/user-info-controller.js';
+import dishController from '../controllers/dish-controller.js';
+import ingredientController from '../controllers/ingredient-controller.js';
+import journalController from '../controllers/journal-controller.js';
+import memberController from '../controllers/member-controller.js';
+import menuController from '../controllers/menu-controller.js';
 
 
-const {body} = require('express-validator');
-const authMiddleware = require('../middlewares/auth-middleware');
+import {body} from 'express-validator';
+import authMiddleware from '../middlewares/auth-middleware.js';
 const router = new Router();
 
 router.post('/registration', body('email').isEmail(),body('password').isLength({min:6, max:32}), userController.registration);
@@ -93,4 +93,4 @@ router.delete('/menu/:mpwDishId', authMiddleware,menuController.deleteFromMenu);
 router.put('/menu/:mpwDishId', authMiddleware,menuController.updateMenuItem);
 router.get('/ingredients/aggregate', authMiddleware,menuController.getAggregatedIngredientsList);
 
-module.exports = router
+export default router;

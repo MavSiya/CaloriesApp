@@ -1,4 +1,4 @@
-const memberService = require('../service/member-service');
+import memberService from '../service/member-service.js';
 
 class MemberController {
   // Створити нового мембера
@@ -99,4 +99,4 @@ class MemberController {
   }
 }
 
-module.exports = new MemberController();
+export default new MemberController();

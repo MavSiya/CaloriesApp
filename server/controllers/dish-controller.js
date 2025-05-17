@@ -1,6 +1,6 @@
-const dishService = require('../service/dish-service');
-const dishCompositionService = require('../service/dish-composition-service');
-const ApiError = require('../exceptions/api-error');
+import dishService from '../service/dish-service.js';
+import dishCompositionService from '../service/dish-composition-service.js';
+import ApiError from '../exceptions/api-error.js';
 
 class DishController {
   // Створення блюда
@@ -139,4 +139,4 @@ class DishController {
 
 }
 
-module.exports = new DishController();
+export default new DishController();

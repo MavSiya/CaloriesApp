@@ -1,4 +1,5 @@
-const { pool } = require('../data-base/db');
+import db from '../data-base/db.js';
+const { pool } = db
 
 class UserInfoService {
     // Функція для розрахунке КБЖУ
@@ -162,5 +163,5 @@ class UserInfoService {
   
   }
   
-  module.exports = new UserInfoService();
+export default new UserInfoService();
   

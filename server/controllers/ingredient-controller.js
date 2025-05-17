@@ -1,5 +1,4 @@
-const ingredientService = require('../service/ingredient-service');
-const ApiError = require('../exceptions/api-error');
+import ingredientService from '../service/ingredient-service.js';
 
 class IngredientController {
   // Створення блюда
@@ -32,4 +31,4 @@ class IngredientController {
   }
 }
 
-module.exports = new IngredientController();
+export default new IngredientController();

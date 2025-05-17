@@ -1,6 +1,5 @@
-const db = require('../data-base/db');
-const ingredientService = require('./ingredient-service');
-const dishService = require('./dish-service');
+import db from '../data-base/db.js';
+import ingredientService from './ingredient-service.js';
 
 class DishCompositionService {
   async addIngredientToDish(dishId, ingredientTitle, weight_grams) {
@@ -139,4 +138,4 @@ async removeIngredientFromDish(dishId, ingredientTitle) {
   }
 }
 
-module.exports = new DishCompositionService();
+export default new DishCompositionService();

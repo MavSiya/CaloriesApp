@@ -1,7 +1,3 @@
-const notify = require("notifycx");
-const dotenv = require("dotenv");
-dotenv.config();
-
 class MailService {
     async sendActivationMail(to, link) {
       const response = await fetch("https://notify.cx/api/send-email", {
@@ -22,4 +18,4 @@ class MailService {
     }
   }
   
-  module.exports = new MailService();
+export default new MailService();

@@ -1,4 +1,4 @@
-const db = require('../data-base/db');
+import db from '../data-base/db.js';
 
 class MemberService {
   // Створити нового мембера
@@ -244,4 +244,4 @@ async getMemberNameById(memberId, userId) {
   
 
 
-module.exports = new MemberService();
+export default new MemberService();

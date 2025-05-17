@@ -1,4 +1,4 @@
-const db = require('../data-base/db');
+import db from '../data-base/db.js';
 
 class JournalService {
   async getTypeOfMealIdByTitle(title) {
@@ -322,4 +322,4 @@ async getJournalDay({ userId, memberId, date }) {
   
 }
 
-module.exports = new JournalService();
+export default new JournalService();

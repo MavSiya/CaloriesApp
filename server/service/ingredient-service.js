@@ -1,4 +1,4 @@
-const db = require('../data-base/db');
+import db from '../data-base/db.js';
 
 class IngredientService {
  
@@ -33,4 +33,4 @@ class IngredientService {
     
 }
 
-module.exports = new IngredientService();
+export default new IngredientService();

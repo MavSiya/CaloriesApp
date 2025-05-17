@@ -1,6 +1,6 @@
-const userInfoService = require('../service/user-info-service');
-const { validationResult } = require('express-validator');
-const ApiError = require('../exceptions/api-error');
+import userInfoService from '../service/user-info-service.js';
+import { validationResult } from 'express-validator';
+import ApiError from '../exceptions/api-error.js';
 
 class UserInfoController {
   // Створення даних про користувача
@@ -76,4 +76,4 @@ class UserInfoController {
   }
 }
 
-module.exports = new UserInfoController();
+export default new UserInfoController();

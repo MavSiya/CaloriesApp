@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const db = require('../data-base/db');
+import jwt from 'jsonwebtoken';
+import db from '../data-base/db.js';
 
 class TokenService{
   
@@ -58,4 +58,4 @@ async saveToken(userId, refreshToken) {
   }
 }
 
-module.exports = new TokenService();
+export default new TokenService();

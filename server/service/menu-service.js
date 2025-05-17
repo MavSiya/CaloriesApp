@@ -1,4 +1,4 @@
-const db = require('../data-base/db');
+import db from '../data-base/db.js';
 
 class MenuService {
   // Додати страву або інгредієнт до меню
@@ -123,4 +123,4 @@ class MenuService {
   
 }
 
-module.exports = new MenuService();
+export default new MenuService();

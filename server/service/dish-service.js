@@ -1,4 +1,4 @@
-const db = require('../data-base/db');
+import db from '../data-base/db.js';
 
 class DishService {
   async getTypeIdByName(typeName) {
@@ -85,4 +85,4 @@ async  getDishTypeById(typeId) {
 
 }
 
-module.exports = new DishService();
+export default new DishService();

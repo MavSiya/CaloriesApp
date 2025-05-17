@@ -1,6 +1,5 @@
-const journalService = require('../service/journal-service');
-const ingredientService = require('../service/ingredient-service');
-const userInfoService = require('../service/user-info-service'); 
+import journalService from '../service/journal-service.js';
+import userInfoService from '../service/user-info-service.js'; 
 
 class JournalController {
   async addDishToMeal(req, res, next) {
@@ -108,4 +107,4 @@ class JournalController {
   
 }
 
-module.exports = new JournalController();
+export default new JournalController();
