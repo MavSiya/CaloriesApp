@@ -8,39 +8,30 @@ import {
 import ApiError from '../exceptions/api-error.js';
 
 // Створення блюда
-export async function createDish(req, res, next) {
-    try {
-        const userId = req.user.id;
-        const { title, typeId } = req.body;
+export async function createDish(req, res) {
+    const userId = req.user.id;
+    const { title, typeId } = req.body;
 
-        if (!title) {
-            return next(ApiError.BadRequest('Назва блюда обовʼязкова'));
-        }
-        if (!typeId) {
-            return next(ApiError.BadRequest('Тип обовязковий обовʼязковий'));
-        }
-
-        const dish = await dishService.createDish(title, userId, typeId);
-        res.json(dish);
-    } catch (e) {
-        next(e);
+    if (!title) {
+        throw ApiError.BadRequest('Назва блюда обовʼязкова');
     }
+    if (!typeId) {
+        throw ApiError.BadRequest('Тип обовязковий обовʼязковий');
+    }
+
+    const dish = await dishService.createDish(title, userId, typeId);
+    res.json(dish);
 }
 
 // Видалення блюда
-export async function deleteDish(req, res, next) {
-    try {
-        const { id } = req.params;
-        await dishService.deleteDish(id);
-        res.json({ message: 'Блюдо видалено' });
-    } catch (e) {
-        next(e);
-    }
+export async function deleteDish(req, res) {
+    const { id } = req.params;
+    await dishService.deleteDish(id);
+    res.json({ message: 'Блюдо видалено' });
 }
 
 // Додавання інгрідієнту
-export async function addIngredient(req, res, next) {
-    try {
+export async function addIngredient(req, res) {
         const { dishId, title, weight } = req.body;
         await addIngredientToDish(dishId, title, weight);
 
@@ -49,14 +40,10 @@ export async function addIngredient(req, res, next) {
         await dishService.updateDishBMR(dishId, kbzhu);
 
         res.json({ message: 'Інгредієнт додано', kbzhu });
-    } catch (e) {
-        next(e);
-    }
 }
 
 // Оновлення ваги
-export async function updateIngredient(req, res, next) {
-    try {
+export async function updateIngredient(req, res) {
         const { dishId, ingredientTitle, weight } = req.body;
         await updateIngredientWeight(dishId, ingredientTitle, weight);
 
@@ -64,14 +51,10 @@ export async function updateIngredient(req, res, next) {
         await dishService.updateDishBMR(dishId, kbzhu);
 
         res.json({ message: 'Інгредієнт оновлено', kbzhu });
-    } catch (e) {
-        next(e);
-    }
 }
 
 // Видалення ингредиента
-export async function removeIngredient(req, res, next) {
-    try {
+export async function removeIngredient(req, res) {
         const { dishId, ingredientTitle } = req.body;
         await removeIngredientFromDish(dishId, ingredientTitle);
 
@@ -79,42 +62,27 @@ export async function removeIngredient(req, res, next) {
         await dishService.updateDishBMR(dishId, kbzhu);
 
         res.json({ message: 'Інгредієнт видалено', kbzhu });
-    } catch (e) {
-        next(e);
-    }
 }
 
 // Получение всех блюд пользователя
-export async function getAllDishes(req, res, next) {
-    try {
+export async function getAllDishes(req, res) {
         const userId = req.user.id;
         const dishes = await dishService.getAllDishes(userId);
         res.json(dishes);
-    } catch (e) {
-        next(e);
-    }
 }
 
-export async function getAllDishesWithBmr(req, res, next) {
-    try {
+export async function getAllDishesWithBmr(req, res) {
         const userId = req.user.id;
         const dishes = await dishService.getAllDishesWithBmr(userId);
         res.json(dishes);
-    } catch (e) {
-        next(e);
-    }
 }
 
 // Пошук страви по назві
-export async function findDish(req, res, next) {
-    try {
+export async function findDish(req, res) {
         const userId = req.user.id;
         const { title } = req.query;
         const dishes = await dishService.findDishByName(title, userId);
         res.json(dishes);
-    } catch (e) {
-        next(e);
-    }
 }
 
 // отримати назву типу страви по ID
