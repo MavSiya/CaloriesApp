@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'caloriesapp'
+    database: 'caloriesapp',
 });
 
 async function initDB() {
@@ -24,16 +24,16 @@ async function initDB() {
     refreshToken TEXT NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
   )
-`;  
+`;
     try {
-      const connection = await pool.getConnection();
-      await connection.query(createUsersTableQuery);
+        const connection = await pool.getConnection();
+        await connection.query(createUsersTableQuery);
         await connection.query(createTokensTableQuery);
-      connection.release();
-      console.log('Таблиці провірені/створені');
+        connection.release();
+        console.log('Таблиці провірені/створені');
     } catch (err) {
-      console.error('Помилка при створенні таблиці:', err);
+        console.error('Помилка при створенні таблиці:', err);
     }
-  }
+}
 
-export default { pool, initDB }
+export default { pool, initDB };
