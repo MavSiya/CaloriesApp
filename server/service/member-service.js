@@ -223,7 +223,25 @@ console.log({ goalPercent, activityRow});
     connection.release();
   }
 }
-  
+
+async getMemberNameById(memberId, userId) {
+    const [member] = await db.pool.execute(
+      `
+      SELECT name
+      FROM Members
+      WHERE id = ? AND User_ID = ?
+      `,
+      [memberId, userId]
+    );
+
+    if (member.length === 0) {
+      throw new Error('Member not found or access denied');
+    }
+
+    return member[0].name;
+  }
 }
+  
+
 
 module.exports = new MemberService();

@@ -84,6 +84,7 @@ router.get('/all-member',authMiddleware,  memberController.getAllMembers);
 router.get('/member/:memberId',authMiddleware,  memberController.getMemberById);
 router.put('/update/:memberId',authMiddleware,  memberController.updateMemberInfo);
 router.get('/info/:memberId',authMiddleware,  memberController.getMemberInfo);
+router.get('/member-name/:memberId', authMiddleware, memberController.getMemberNameById);
 
 //menu-controller
 router.post('/add-in-menu',authMiddleware, menuController.addDishOrIngredientToMenu);

@@ -1,10 +1,10 @@
-.meal-container {
+.meal-container-menu {
     max-width: 500px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
   }
   
-  .meal-button {
+  .meal-button-menu {
     width: 100%;
     padding: 15px;
     margin: 5px 0;
@@ -20,11 +20,11 @@
     align-items: center;
   }
   
-  .meal-name {
+  .meal-name-menu {
     flex-grow: 1;
   }
   
-  .meal-icon {
+  .meal-icon-menu {
     width: 24px;
     height: 24px;
     display: flex;
@@ -33,60 +33,63 @@
     color: #666;
   }
   
-  .meal-button:hover {
+  .meal-button-menu:hover {
     background-color: #33994A;
     color: white;
   }
   
-  .meal-button.active {
+  .meal-button-menu.active {
     background-color: #33994A;
     color: white;
   }
   
-  .meal-details {
+  .meal-details-menu {
     background-color: #f9f9f9;
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 10px;
   }
   
-  .dishes-list {
+  .dishes-list-menu {
     margin-bottom: 20px;
   }
+
   
-  .dish-item {
+  .dish-item-menu {
     display: flex;
     justify-content: space-between;
     padding: 8px 0;
     border-bottom: 1px solid #eee;
+    height: 20px;
+    margin-left: 2px;
   }
   
-  .dish-name {
+  .dish-name-menu {
     font-weight: bold;
   }
   
-  .nutrition-summary {
+  .nutrition-summary-menu {
     display: flex;
     justify-content: space-between;
     text-align: center;
   }
   
-  .summary-item {
+  .summary-item-menu {
     flex: 1;
   }
   
-  .summary-value {
+  .summary-value-menu {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
   }
   
-  .summary-label {
+  .summary-label-menu {
     font-size: 14px;
     color: #666;
   }
   
-  .add-dish-button-journal {
+  .add-dish-button-journal-menu {
     width: 40px;
     height: 40px;
     border-radius: 10px;
@@ -102,12 +105,12 @@
     padding: 0;
   }
   
-  .add-dish-button-journal:hover {
+  .add-dish-button-journal-menu:hover {
     background-color: #45a049;
   }
   
   /* Стилі для модального вікна*/
-  .modal-overlay {
+  .modal-overlay-menu {
     position: fixed;
     top: 0;
     left: 0;
@@ -120,7 +123,7 @@
     z-index: 1000;
   }
   
-  .modal-content {
+  .modal-content-menu {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -129,7 +132,7 @@
     position: relative;
   }
   
-  .modal-close {
+  .modal-close-menu {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -139,21 +142,21 @@
     cursor: pointer;
   }
   
-  .modal-content h3 {
+  .modal-content-menu h3 {
     margin-top: 0;
     margin-bottom: 20px;
   }
   
-  .form-group {
+  .form-group-menu {
     margin-bottom: 15px;
   }
   
-  .form-group label {
+  .form-group-menu label {
     display: block;
     margin-bottom: 5px;
   }
   
-  .form-group input {
+  .form-group-menu input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
@@ -161,7 +164,7 @@
     border-radius: 4px;
   }
   
-  .modal-submit {
+  .modal-submit-menu {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -173,32 +176,32 @@
     text-align: center;
   }
   
-  .modal-submit:hover {
+  .modal-submit-menu:hover {
     background-color: #45a049;
   }
 
-  .type-switcher{
+  .type-switcher-menu{
      margin: 10px;
     margin-left: 0;
   text-align: center;
   }
 
-  .button-modal-journal{
+  .button-modal-journal-menu{
     margin-bottom: 10px;
     width: 100px;
     margin-right: 10px;
   }
 
-  .delete-button{
+  .delete-button-menu{
     width: 50px;
 margin:0;
   }
 
-.dish-weight {
+.dish-weight-menu {
   margin-left: 6px;
 }
 
-.dish-weight {
+.dish-weight-menu {
   margin-left: 6px;
   font-size: 14px;
   color: #666;

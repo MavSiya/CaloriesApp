@@ -126,6 +126,25 @@ class MemberService {
       throw error;
     }
   }
+
+  async getMemberNameById(memberId) {
+    try {
+      const response = await fetch(`${API_URL}/member-name/${memberId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (!response.ok) throw new Error((await response.json()).message || 'Error getting member name');
+     const data = await response.json();
+    return data.name;
+    } catch (error) {
+      console.error('Error getting member name:', error.message);
+      throw error;
+    }
+  }
+
 }
 
 export default new MemberService();

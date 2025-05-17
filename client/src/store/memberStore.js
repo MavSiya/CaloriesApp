@@ -183,15 +183,27 @@ async createMember(userId) {
   }
 
   async deleteMember({memberId,userId}) {
-      console.log('Удаляем члена', memberId);
+      console.log('Видаляємо мембера', memberId);
     this.setError(null);
     try {
       await MemberService.deleteMember(memberId,userId);
-       console.log('Член удален');
+       console.log('Мембер видалений');
       await this.fetchAllMembers(userId);
     } catch (error) {
-       console.error('Ошибка при удалении:', error.message);
+       console.error('Помилка при видаленні:', error.message);
       this.setError(error.message);
+    }
+  }
+
+     async getMemberName(memberId) {
+    this.setLoading(true);
+    try {
+      const name = await MemberService.getMemberNameById(memberId);
+      return name; 
+    } catch (error) {
+      this.setError(error.message);
+    } finally {
+      this.setLoading(false);
     }
   }
 }

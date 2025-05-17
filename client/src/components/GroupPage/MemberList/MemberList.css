@@ -16,6 +16,10 @@
   margin-bottom: 20px;
 }
 
+.member-list-li button{
+  width: 120px;
+}
+
 button {
   width: 100%;
   padding: 12px 16px;

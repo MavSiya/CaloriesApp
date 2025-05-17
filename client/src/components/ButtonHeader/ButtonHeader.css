@@ -1,4 +1,4 @@
-.button {
+.button-header {
     background-color:#8FE2A2 ;
     font-family: 'Segoe UI', sans-serif;
     font-size: 24px;
@@ -10,18 +10,19 @@
     font-weight: bold;
     margin-right: 1rem;
     width: 290px;
+    height: 70px;
      text-align: center; 
     line-height: normal; 
     display: inline-block; 
 }
 
-.button:hover{
+.button-header:hover{
     opacity: 0.8;
     background-color:#006417 ;
     color: white;
 }
 
-.button.active {
+.button-header.active {
     background: #33994A;
     color: #ffffff;
 }
@@ -35,7 +36,7 @@
   align-items: center;
 }
 
-.button.btn_small{
+.button-header.btn_small{
     width: 140px;
 }
 

@@ -79,20 +79,20 @@ const ModalAddDishToMenu = ({ isOpen, onClose, typeOfMealId, dayOfWeekId }) => {
 
   
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <button className="modal-close" onClick={onClose}>×</button>
+    <div className="modal-overlay-menu">
+      <div className="modal-content-menu">
+        <button className="modal-close-menu" onClick={onClose}>×</button>
         <h3>Додати до прийому їжі</h3>
 
-        <div className="type-switcher">
+        <div className="type-switcher-menu">
           <button
-            className={type === 'dish' ? 'button-modal-journal active' : 'button-modal-journal'}
+            className={type === 'dish' ? 'button-modal-journal-menu active' : 'button-modal-journal-menu'}
             onClick={() => setType('dish')}
           >
             Страва
           </button>
           <button
-            className={type === 'ingredient' ? 'button-modal-journal active' : 'button-modal-journal'}
+            className={type === 'ingredient' ? 'button-modal-journal-menu active' : 'button-modal-journal-menu'}
             onClick={() => setType('ingredient')}
           >
             Інгредієнт
@@ -100,7 +100,7 @@ const ModalAddDishToMenu = ({ isOpen, onClose, typeOfMealId, dayOfWeekId }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="form-group-menu">
             <label>Назва:</label>
             <input
               type="text"
@@ -119,11 +119,11 @@ const ModalAddDishToMenu = ({ isOpen, onClose, typeOfMealId, dayOfWeekId }) => {
               required
             />
             {searchTerm && (
-              <div className="autocomplete-list">
+              <div className="autocomplete-list-menu">
                 {filteredList.map(item => (
                   <div
                     key={item.id}
-                    className="autocomplete-item"
+                    className="autocomplete-item-menu"
                     onClick={() => {
                       setSelectedItem(item);
                       setSearchTerm(item.title);
@@ -136,7 +136,7 @@ const ModalAddDishToMenu = ({ isOpen, onClose, typeOfMealId, dayOfWeekId }) => {
             )}
           </div>
           {type === 'ingredient' && selectedItem && (
-            <div className="form-group">
+            <div className="form-group-menu">
               <label>Вага (г):</label>
               <input
                 type="number"
@@ -147,9 +147,9 @@ const ModalAddDishToMenu = ({ isOpen, onClose, typeOfMealId, dayOfWeekId }) => {
               />
             </div>
           )}
-          <button type="submit" className="modal-submit">Додати</button>
+          <button type="submit" className="modal-submit-menu">Додати</button>
         </form>
-        {message && <p className="success-message">{message}</p>}
+        {message && <p className="success-message-menu">{message}</p>}
       </div>
 
     </div>

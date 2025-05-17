@@ -1,5 +1,5 @@
 .shopping-list {
-  max-width: 500px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -13,9 +13,16 @@
 }
 
 .product-list {
-  list-style: none;
-  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+  gap: 20px;
   margin: 0;
+  padding: 0;
+}
+
+.product-column {
+  display: flex;
+  flex-direction: column;
 }
 
 .product-item {

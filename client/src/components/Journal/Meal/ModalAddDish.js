@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext} from 'react';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../../index.js';
 
-import './Meal.css';
+import styles from './Meal.module.css';
 
 const ModalAddDish = ({ isOpen, onClose, typeOfMealId, memberId  }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -67,28 +67,28 @@ console.log('Викликаємо onClose');
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <button className="modal-close" onClick={onClose}>×</button>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <button className={styles.modalClose} onClick={onClose}>×</button>
         <h3>Додати до прийому їжі</h3>
 
-        <div className="type-switcher">
-          <button 
-            className={type === 'dish' ? 'button-modal-journal active' : 'button-modal-journal'} 
-            onClick={() => setType('dish')}
-          >
-            Страва
-          </button>
-          <button 
-            className={type === 'ingredient' ? 'button-modal-journal active' : 'button-modal-journal'} 
-            onClick={() => setType('ingredient')}
-          >
-            Інгредієнт
-          </button>
-        </div>
+      <div className={styles.typeSwitcher}>
+  <button 
+    className={`${styles.buttonModalJournal} ${type === 'dish' ? styles.active : ''}`} 
+    onClick={() => setType('dish')}
+  >
+    Страва
+  </button>
+  <button 
+    className={`${styles.buttonModalJournal} ${type === 'ingredient' ? styles.active : ''}`} 
+    onClick={() => setType('ingredient')}
+  >
+    Інгредієнт
+  </button>
+</div>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label>Назва:</label>
             <input 
               type="text" 
@@ -109,11 +109,11 @@ console.log('Викликаємо onClose');
               required 
             />
             {searchTerm && (
-              <div className="autocomplete-list">
+              <div className={styles.autocompleteList}>
                 {filteredList.map(item => (
                   <div 
                     key={item.id}
-                    className="autocomplete-item"
+                    className={styles.autocompleteItem}
                     onClick={() => {
                       setSelectedItem(item);
                       setSearchTerm(item.title);
@@ -126,7 +126,7 @@ console.log('Викликаємо onClose');
             )}
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label>Вага (г):</label>
             <input 
               type="number" 
@@ -136,9 +136,9 @@ console.log('Викликаємо onClose');
             />
           </div>
 
-          <button type="submit" className="modal-submit">Додати</button>
+          <button type="submit" className={styles.modalSubmit}>Додати</button>
         </form>
-        {message && <p className="success-message">{message}</p>}
+        {message && <p className={styles.successMessage}>{message}</p>}
       </div>
     </div>
   );

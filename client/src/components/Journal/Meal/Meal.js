@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { Context } from '../../../index.js';
 import ButtonMeal from './ButtonMeal';
 import ModalAddDish from './ModalAddDish';
-import './Meal.css';
+import styles from './Meal.module.css';
 import deleteIcon from '../../../styles/icon/btn_delete.png';
 
 const Meal = ({ memberId }) => {
@@ -25,7 +25,6 @@ const Meal = ({ memberId }) => {
 
   const toggleMeal = async (mealId) => {
     const isExpanding = expandedMealId !== mealId;
-    console.log('Toggling meal:', mealId, isExpanding);
     if (isExpanding) {
       await journalStore.fetchMealDishes(mealId, memberIdToSend);
       await journalStore.fetchMealNutrients({ memberId: memberIdToSend, typeOfMealId: mealId });
@@ -49,8 +48,8 @@ const Meal = ({ memberId }) => {
       window.location.reload();
   };
 
-  return (
-    <div className="meal-container">
+return (
+    <div className={styles.mealContainer}>
       {meals.map((meal) => (
         <div key={meal.id}>
           <ButtonMeal
@@ -61,23 +60,26 @@ const Meal = ({ memberId }) => {
           />
 
           {expandedMealId === meal.id && (
-            <div className="meal-details">
-              <div className="dishes-list">
+            <div className={styles.mealDetails}>
+              <div className={styles.dishesList}>
                 {journalStore.meals[meal.id]?.length > 0 ? (
                   journalStore.meals[meal.id].map((item, index) => (
-                    <div key={index} className="dish-item">
-                      <div className='dish-and-gram'>
-                        <span className="dish-name">{item.dishTitle || item.ingredientTitle}</span>
-                        <span className="dish-weight">{item.weight} г</span>
+                    <div key={index} className={styles.dishItem}>
+                      <div className={styles.dishAndGram}>
+                        <span className={styles.dishName}>
+                          {item.dishTitle || item.ingredientTitle}
+                        </span>
+                        <span className={styles.dishWeight}>{item.weight} г</span>
                       </div>
-                      <button style={{ border: "none", background: "transparent", cursor: "pointer" }}
-                        className="delete-button"
+                      <button
+                        style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}
+                        className={styles.deleteButton}
                         onClick={async () => {
                           await journalStore.deleteFromMeal(item.id);
                           await journalStore.fetchMealDishes(meal.id, memberIdToSend);
                           await journalStore.fetchMealNutrients({ memberId: memberIdToSend, typeOfMealId: meal.id });
                           await journalStore.fetchConsumed({ userId: userIdToSend, memberId: memberIdToSend });
-                           window.location.reload();
+                          window.location.reload();
                         }}
                       >
                         <img src={deleteIcon} alt="Delete" width="20" height="20" />
@@ -89,13 +91,13 @@ const Meal = ({ memberId }) => {
                 )}
               </div>
 
-              <div className="nutrition-summary">
+              <div className={styles.nutritionSummary}>
                 {['calories', 'proteins', 'fats', 'carbs'].map((key) => (
-                  <div className="summary-item" key={key}>
-                    <span className="summary-value">
+                  <div className={styles.summaryItem} key={key}>
+                    <span className={styles.summaryValue}>
                       {journalStore.nutrientsByMeal[meal.id]?.[key] || 0}
                     </span>
-                    <span className="summary-label">
+                    <span className={styles.summaryLabel}>
                       {{
                         calories: 'Ккал',
                         proteins: 'Білки',
@@ -107,7 +109,10 @@ const Meal = ({ memberId }) => {
                 ))}
               </div>
 
-              <button className="add-dish-button-journal" onClick={() => openModal(meal.id)}>
+              <button
+                className={styles.addDishButtonJournal}
+                onClick={() => openModal(meal.id)}
+              >
                 +
               </button>
             </div>

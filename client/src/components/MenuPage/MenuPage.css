@@ -1,0 +1,28 @@
+.button-menu {
+    width: 100%;
+    margin-top: 20px;
+    height: 90px;
+    background-color: #8FE2A2; 
+    color: darkslategrey; 
+    border: none;
+    font-size: 24px; 
+    font-weight: bold; 
+    text-align: center; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+
+.button-menu:hover {
+    background-color: #006417;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    color: white;
+}
+
+.button-menu:focus {
+    outline: none; 
+    box-shadow: 0 0 10px rgba(72, 178, 104, 0.8);
+}

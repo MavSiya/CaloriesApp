@@ -86,6 +86,17 @@ class MemberController {
       next(error);
     }
   }
+
+   async getMemberNameById(req, res, next) {
+    try {
+      const { memberId } = req.params;
+      const userId = req.user.id; 
+      const name = await memberService.getMemberNameById(memberId, userId);
+      return res.json({ name });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new MemberController();

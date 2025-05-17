@@ -7,6 +7,7 @@ import ShoppingList from './ShoppingList/ShoppingList';
 import { observer } from 'mobx-react-lite';
 import { generatePdfForMenuAndShoppingList } from '../utils/pdfUtils';
 import { toJS } from 'mobx';
+import './MenuPage.css'
 
 function MenuPage() {
  const { menuStore, store } = useContext(Context);
@@ -16,7 +17,7 @@ function MenuPage() {
   useEffect(() => {
     menuStore.fetchMenu(userId);
     menuStore.fetchAggregatedIngredients(userId);
-    console.log(menuStore.menu); // проверим menu
+    console.log(menuStore.menu); 
   console.log(menuStore.aggregatedIngredients);
   }, [userId]);
 
@@ -50,7 +51,7 @@ const normalAggregatedIngredients = toJS(aggregatedIngredients);
       <Menu />
       <ShoppingList />
 
-       <button onClick={handlePdfExport} disabled={isLoading}>
+       <button className='button-menu' onClick={handlePdfExport} disabled={isLoading}>
         {isLoading ? 'Завантаження...' : 'Зберегти меню та список продуктів як PDF'}
       </button>
     </div>

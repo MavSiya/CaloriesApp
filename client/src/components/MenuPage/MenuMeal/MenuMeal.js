@@ -34,15 +34,16 @@ const MenuMeal = ({ dayOfWeekId }) => {
 
   const handleDelete = async (mpwDishId) => {
     await menuStore.deleteDish(userId, mpwDishId);
+     await menuStore.fetchAggregatedIngredients(userId); 
   };
 
   return (
-    <div className="meal-container">
+    <div className="meal-container-menu">
       {meals.map((meal) => {
         const dishes = menuStore.getDishesFor(dayOfWeekId, meal.id);
         return (
-          <div key={meal.id} className="meal-block">
-            <div className="meal-header">
+          <div key={meal.id} className="meal-block-menu">
+            <div className="meal-header-menu">
               <ButtonMenuMeal
                 mealName={meal.name}
                 isActive={false}
@@ -50,18 +51,18 @@ const MenuMeal = ({ dayOfWeekId }) => {
               />
             </div>
 
-            <div className="dishes-list">
+            <div className="dishes-list-menu">
               {dishes.length > 0 ? (
                 dishes.map((item) => (
-                  <div key={item.id} className="dish-item">
-                    <div className="dish-and-gram">
-                      <span className="dish-name">{item.dishTitle || item.ingredientTitle}</span>
+                  <div key={item.id} className="dish-item-menu">
+                    <div className="dish-and-gram-menu">
+                      <span className="dish-name-menu">{item.dishTitle || item.ingredientTitle}</span>
                       {item.ingredientTitle && item.weight_ingredient && (
-                        <span className="dish-weight">{`${item.weight_ingredient} г`}</span>
+                        <span className="dish-weight-menu">{`${item.weight_ingredient} г`}</span>
                       )}
                     </div>
                     <button
-                      className="delete-button"
+                      className="delete-button-menu"
                       onClick={() => handleDelete(item.id)}
                       style={{ border: "none", background: "transparent", cursor: "pointer" }}
                     >
@@ -70,7 +71,7 @@ const MenuMeal = ({ dayOfWeekId }) => {
                   </div>
                 ))
               ) : (
-                <p className="no-dishes">Немає доданих страв.</p>
+                <p className="no-dishes-menu">Немає доданих страв.</p>
               )}
             </div>
           </div>
