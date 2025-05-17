@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import userController from '../controllers/user-controller.js';
-import userInfoController from '../controllers/user-info-controller.js';
-import dishController from '../controllers/dish-controller.js';
-import ingredientController from '../controllers/ingredient-controller.js';
-import journalController from '../controllers/journal-controller.js';
-import memberController from '../controllers/member-controller.js';
-import menuController from '../controllers/menu-controller.js';
+import * as userController from '../controllers/user-controller.js';
+import * as userInfoController from '../controllers/user-info-controller.js';
+import * as dishController from '../controllers/dish-controller.js';
+import * as ingredientController from '../controllers/ingredient-controller.js';
+import * as journalController from '../controllers/journal-controller.js';
+import * as memberController from '../controllers/member-controller.js';
+import * as menuController from '../controllers/menu-controller.js';
 
 import { body } from 'express-validator';
 import authMiddleware from '../middlewares/auth-middleware.js';

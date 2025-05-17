@@ -1,13 +1,13 @@
-import mysql from 'mysql2/promise';
+import { createPool } from 'mysql2/promise';
 
-const pool = mysql.createPool({
+const pool = createPool({
     host: 'localhost',
     user: 'root',
     password: 'root',
     database: 'caloriesapp',
 });
 
-async function initDB() {
+export async function initDB() {
     const createUsersTableQuery = `
       CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,4 +36,4 @@ async function initDB() {
     }
 }
 
-export default { pool, initDB };
+export default pool;

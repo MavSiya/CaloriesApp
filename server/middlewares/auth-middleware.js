@@ -1,5 +1,5 @@
 import ApiError from '../exceptions/api-error.js';
-import tokenService from '../service/token-service.js';
+import { validateAccessToken } from '../service/token-service.js';
 
 export default function (req, res, next) {
     try {
@@ -13,7 +13,7 @@ export default function (req, res, next) {
             return next(ApiError.UnauthorizedError());
         }
 
-        const userData = tokenService.validateAccessToken(accessToken);
+        const userData = validateAccessToken(accessToken);
         if (!userData) {
             return next(ApiError.UnauthorizedError());
         }

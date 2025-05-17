@@ -1,79 +1,75 @@
-import userInfoService from '../service/user-info-service.js';
+import * as userInfoService from '../service/user-info-service.js';
 import { validationResult } from 'express-validator';
 import ApiError from '../exceptions/api-error.js';
 
-class UserInfoController {
-    // Створення даних про користувача
-    async createUserInfo(req, res, next) {
-        try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
-            }
-
-            const { activityId, goalId, weight, height, dateOfBirth, sex, name } = req.body;
-            const userId = req.user.id;
-
-            const userInfo = await userInfoService.createUserInfo(userId, {
-                activityId,
-                goalId,
-                weight,
-                height,
-                dateOfBirth,
-                sex,
-                name,
-            });
-
-            return res.json(userInfo);
-        } catch (e) {
-            next(e);
+// Створення даних про користувача
+export async function createUserInfo(req, res, next) {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
         }
-    }
 
-    // Оновлення даних про користувача
-    async updateUserInfo(req, res, next) {
-        try {
-            console.log('req.body:', req.body);
+        const { activityId, goalId, weight, height, dateOfBirth, sex, name } = req.body;
+        const userId = req.user.id;
 
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
-            }
+        const userInfo = await userInfoService.createUserInfo(userId, {
+            activityId,
+            goalId,
+            weight,
+            height,
+            dateOfBirth,
+            sex,
+            name,
+        });
 
-            const { activityId, goalId, weight, height, dateOfBirth, sex, name } = req.body;
-            const userId = req.user.id;
-
-            const userInfo = await userInfoService.updateUserInfo(userId, {
-                activityId,
-                goalId,
-                weight,
-                height,
-                dateOfBirth,
-                sex,
-                name,
-            });
-
-            return res.json(userInfo);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    // Отримання інформації про користувача
-    async getUserInfo(req, res, next) {
-        try {
-            const userId = req.user.id; // id пользователя из токена
-            const userInfo = await userInfoService.getUserInfo(userId);
-
-            if (!userInfo) {
-                return next(ApiError.NotFound('Інформація про користувача не знайдена'));
-            }
-
-            return res.json(userInfo);
-        } catch (e) {
-            next(e);
-        }
+        return res.json(userInfo);
+    } catch (e) {
+        next(e);
     }
 }
 
-export default new UserInfoController();
+// Оновлення даних про користувача
+export async function updateUserInfo(req, res, next) {
+    try {
+        console.log('req.body:', req.body);
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
+        }
+
+        const { activityId, goalId, weight, height, dateOfBirth, sex, name } = req.body;
+        const userId = req.user.id;
+
+        const userInfo = await userInfoService.updateUserInfo(userId, {
+            activityId,
+            goalId,
+            weight,
+            height,
+            dateOfBirth,
+            sex,
+            name,
+        });
+
+        return res.json(userInfo);
+    } catch (e) {
+        next(e);
+    }
+}
+
+// Отримання інформації про користувача
+export async function getUserInfo(req, res, next) {
+    try {
+        const userId = req.user.id; // id пользователя из токена
+        const userInfo = await userInfoService.getUserInfo(userId);
+
+        if (!userInfo) {
+            return next(ApiError.NotFound('Інформація про користувача не знайдена'));
+        }
+
+        return res.json(userInfo);
+    } catch (e) {
+        next(e);
+    }
+}
