@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import userInfoService from '../services/UserInfoService';
+import { createUserInfo, getUserInfo, updateUserInfo } from '../services/UserInfoService';
 
 export default class RegistrationStore {
     name = "";
@@ -105,15 +105,15 @@ export default class RegistrationStore {
         this.setError(null);
 
         try {
-            const result = await userInfoService.createUserInfo(
-                this.activityId,
-                this.goalId,
-                Number(this.weight),
-                Number(this.height),
-                this.dob,
-                this.sex,
-                this.name
-            );
+            const result = await createUserInfo({
+                activityId: this.activityId,
+                goalId: this.goalId,
+                weight: Number(this.weight),
+                height: Number(this.height),
+                dateOfBirth: this.dob,
+                sex: this.sex,
+                name: this.name
+            });
             console.log("Інформацію про користувача збережено:", result);
             return result;
         } catch (error) {
@@ -129,15 +129,15 @@ export default class RegistrationStore {
         this.setError(null);
 
         try {
-            const result = await userInfoService.updateUserInfo(
-                this.activityId,
-                this.goalId,
-                Number(this.weight),
-                Number(this.height),
-                this.dob,
-                this.sex,
-                this.name
-            );
+            const result = await updateUserInfo({
+                activityId: this.activityId,
+                goalId: this.goalId,
+                weight: Number(this.weight),
+                height: Number(this.height),
+                dateOfBirth: this.dob,
+                sex: this.sex,
+                name: this.name
+            });
             console.log("Інформацію оновлено:", result);
             return result;
         } catch (error) {
@@ -153,7 +153,7 @@ export default class RegistrationStore {
         this.setError(null);
 
         try {
-            const data = await userInfoService.getUserInfo();
+            const data = await getUserInfo();
             console.log("Отримано з сервера:", data);
             this.activityId = data.activity_ID ?? null;
             this.goalId = data.goal_ID ?? null;
