@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import DishService from "..//services/DishService";
-import IngredientService from "../services/IngredientService";
+import * as DishService from "..//services/DishService";
+import * as IngredientService from "../services/IngredientService";
 
 export default class DishStore {
   dishes = [];

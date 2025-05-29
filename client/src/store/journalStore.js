@@ -1,4 +1,4 @@
-import JournalService from "../services/JournalService";
+import * as JournalService from "../services/JournalService";
 import { runInAction } from 'mobx';
 import { makeAutoObservable } from "mobx";
 import dayjs from "dayjs";
@@ -34,9 +34,11 @@ export default class JournalStore {
   setDate(date) {
     this.currentDate = date;
   }
+
   setLoading(isLoading) {
     this.isLoading = isLoading;
   }
+
   setError(error) {
     this.error = error;
   }
@@ -111,11 +113,6 @@ export default class JournalStore {
     }
   }
   
-
-  setDate(date) {
-    this.currentDate = date;
-  }
-
   meals = {
     1: [], // Сніданок
     2: [], // Обід

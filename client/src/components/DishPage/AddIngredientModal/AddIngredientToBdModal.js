@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import IngredientService from '../../../services/IngredientService';
+import * as IngredientService from '../../../services/IngredientService';
 import './AddIngridientModal.css';
 
 const AddIngredientToBdModal = ({ onClose }) => {
