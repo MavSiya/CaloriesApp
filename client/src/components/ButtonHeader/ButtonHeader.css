@@ -1,5 +1,5 @@
 .button-header {
-    background-color:#8FE2A2 ;
+    background-color: #8fe2a2;
     font-family: 'Segoe UI', sans-serif;
     font-size: 24px;
     padding: 1rem 2rem;
@@ -11,40 +11,40 @@
     margin-right: 1rem;
     width: 290px;
     height: 70px;
-     text-align: center; 
-    line-height: normal; 
-    display: inline-block; 
+    text-align: center;
+    line-height: normal;
+    display: inline-block;
 }
 
-.button-header:hover{
+.button-header:hover {
     opacity: 0.8;
-    background-color:#006417 ;
+    background-color: #006417;
     color: white;
 }
 
 .button-header.active {
-    background: #33994A;
+    background: #33994a;
     color: #ffffff;
 }
 
-.header{
+.header {
     margin: 20px 50px;
     display: flex;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px 2em;
-  justify-content: space-between;
-  align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px 2em;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.button-header.btn_small{
+.button-header.btn_small {
     width: 140px;
 }
 
-.header_for_journal{
-       margin: 20px 50px;
+.header_for_journal {
+    margin: 20px 50px;
     display: flex;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px 2em;
-  justify-content: space-between;
-  align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px 2em;
+    justify-content: space-between;
+    align-items: center;
 }

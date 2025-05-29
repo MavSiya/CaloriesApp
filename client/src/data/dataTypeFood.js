@@ -30,5 +30,5 @@ export const typeFood = [
     {
         id: 7,
         type: 'Перекус',
-    }
-]
+    },
+];

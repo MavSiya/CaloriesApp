@@ -77,7 +77,7 @@ export default class MenuStore {
             (item) =>
                 this.getDayId(item.day) === dayOfWeekId &&
                 item.meal === mealNames[mealId] &&
-                (item.dishTitle || item.ingredientTitle)
+                (item.dishTitle || item.ingredientTitle),
         );
     }
 

@@ -2,9 +2,9 @@
     max-width: 500px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
-  }
-  
-  .meal-button-menu {
+}
+
+.meal-button-menu {
     width: 100%;
     padding: 15px;
     margin: 5px 0;
@@ -18,79 +18,79 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .meal-name-menu {
+}
+
+.meal-name-menu {
     flex-grow: 1;
-  }
-  
-  .meal-icon-menu {
+}
+
+.meal-icon-menu {
     width: 24px;
     height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #666;
-  }
-  
-  .meal-button:hover-menu {
-    background-color: #33994A;
+}
+
+.meal-button:hover-menu {
+    background-color: #33994a;
     color: white;
-  }
-  
-  .meal-button-menu.active {
-    background-color: #33994A;
+}
+
+.meal-button-menu.active {
+    background-color: #33994a;
     color: white;
-  }
-  
-  .meal-details-menu {
+}
+
+.meal-details-menu {
     background-color: #f9f9f9;
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 10px;
-  }
-  
-  .dishes-list-menu {
+}
+
+.dishes-list-menu {
     margin-bottom: 20px;
-  }
-  
-  .dish-item-menu {
+}
+
+.dish-item-menu {
     display: flex;
     justify-content: space-between;
     padding: 8px 0;
     border-bottom: 1px solid #eee;
-  }
-  
-  .dish-name-menu {
+}
+
+.dish-name-menu {
     font-weight: bold;
-  }
-  
-  .nutrition-summary-menu {
+}
+
+.nutrition-summary-menu {
     display: flex;
     justify-content: space-between;
     text-align: center;
-  }
-  
-  .summary-item-menu {
+}
+
+.summary-item-menu {
     flex: 1;
-  }
-  
-  .summary-value-menu {
+}
+
+.summary-value-menu {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-  }
-  
-  .summary-label-menu {
+}
+
+.summary-label-menu {
     font-size: 14px;
     color: #666;
-  }
-  
-  .add-dish-button-journal-menu {
+}
+
+.add-dish-button-journal-menu {
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     border: none;
     font-size: 24px;
@@ -100,14 +100,14 @@
     transition: background-color 0.3s;
     text-align: center;
     padding: 0;
-  }
-  
-  .add-dish-button-journal:hover {
+}
+
+.add-dish-button-journal:hover {
     background-color: #45a049;
-  }
-  
-  /* Стилі для модального вікна*/
-  .modal-overlay-menu {
+}
+
+/* Стилі для модального вікна*/
+.modal-overlay-menu {
     position: fixed;
     top: 0;
     left: 0;
@@ -118,18 +118,18 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-  }
-  
-  .modal-content-menu {
+}
+
+.modal-content-menu {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
     width: 90%;
     max-width: 400px;
     position: relative;
-  }
-  
-  .modal-close-menu {
+}
+
+.modal-close-menu {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -137,32 +137,32 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-  }
-  
-  .modal-content-menu h3 {
+}
+
+.modal-content-menu h3 {
     margin-top: 0;
     margin-bottom: 20px;
-  }
-  
-  .form-group-menu {
+}
+
+.form-group-menu {
     margin-bottom: 15px;
-  }
-  
-  .form-group-menu label {
+}
+
+.form-group-menu label {
     display: block;
     margin-bottom: 5px;
-  }
-  
-  .form-group-menu input {
+}
+
+.form-group-menu input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 4px;
-  }
-  
-  .modal-submit-menu {
-    background-color: #4CAF50;
+}
+
+.modal-submit-menu {
+    background-color: #4caf50;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -171,29 +171,29 @@
     width: 100px;
     font-size: 16px;
     text-align: center;
-  }
-  
-  .modal-submit-menu:hover {
+}
+
+.modal-submit-menu:hover {
     background-color: #45a049;
-  }
+}
 
-  .type-switcher-menu{
-     margin: 10px;
+.type-switcher-menu {
+    margin: 10px;
     margin-left: 0;
-  text-align: center;
-  }
+    text-align: center;
+}
 
-  .button-modal-journal-menu{
+.button-modal-journal-menu {
     margin-bottom: 10px;
     width: 100px;
     margin-right: 10px;
-  }
+}
 
-  .delete-button-menu{
+.delete-button-menu {
     width: 50px;
-margin:0;
-  }
+    margin: 0;
+}
 
 .dish-weight-menu {
-  margin-left: 6px;
+    margin-left: 6px;
 }

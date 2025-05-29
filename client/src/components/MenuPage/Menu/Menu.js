@@ -5,50 +5,50 @@ import MenuMeal from '../MenuMeal/MenuMeal.js';
 import './Menu.css';
 
 const Menu = () => {
-  const { store } = useContext(Context);
-  const daysOfWeek = [
-    { id: 1, title: 'Понеділок' },
-    { id: 2, title: 'Вівторок' },
-    { id: 3, title: 'Середа' },
-    { id: 4, title: 'Четвер' },
-    { id: 5, title: 'Пятниця' },
-    { id: 6, title: 'Субота' },
-    { id: 7, title: 'Неділя' }
-  ];
+    const { store } = useContext(Context);
+    const daysOfWeek = [
+        { id: 1, title: 'Понеділок' },
+        { id: 2, title: 'Вівторок' },
+        { id: 3, title: 'Середа' },
+        { id: 4, title: 'Четвер' },
+        { id: 5, title: 'Пятниця' },
+        { id: 6, title: 'Субота' },
+        { id: 7, title: 'Неділя' },
+    ];
 
-  return (
-    <div className="menu-page-container-menu">
-      <h1>Меню</h1>
-      
-      {/* Понеділок вівторок середа */}
-      <div className="week-row-menu">
-        {daysOfWeek.slice(0, 3).map(day => (
-          <div key={day.id} className="day-card-menu">
-            <h2>{day.title}</h2>
-            <MenuMeal dayOfWeekId={day.id}/>
-          </div>
-        ))}
-      </div>
-      
-      {/* Четвер пятниця субота*/}
-      <div className="week-row-menu">
-        {daysOfWeek.slice(3, 6).map(day => (
-          <div key={day.id} className="day-card-menu">
-            <h2>{day.title}</h2>
-            <MenuMeal dayOfWeekId={day.id}/>
-          </div>
-        ))}
-      </div>
-      
-      {/* Неділя */}
-      <div className="single-day-row-menu">
-        <div className="day-card-menu">
-          <h2>{daysOfWeek[6].title}</h2>
-          <MenuMeal dayOfWeekId={daysOfWeek[6].id}/>
+    return (
+        <div className="menu-page-container-menu">
+            <h1>Меню</h1>
+
+            {/* Понеділок вівторок середа */}
+            <div className="week-row-menu">
+                {daysOfWeek.slice(0, 3).map((day) => (
+                    <div key={day.id} className="day-card-menu">
+                        <h2>{day.title}</h2>
+                        <MenuMeal dayOfWeekId={day.id} />
+                    </div>
+                ))}
+            </div>
+
+            {/* Четвер пятниця субота*/}
+            <div className="week-row-menu">
+                {daysOfWeek.slice(3, 6).map((day) => (
+                    <div key={day.id} className="day-card-menu">
+                        <h2>{day.title}</h2>
+                        <MenuMeal dayOfWeekId={day.id} />
+                    </div>
+                ))}
+            </div>
+
+            {/* Неділя */}
+            <div className="single-day-row-menu">
+                <div className="day-card-menu">
+                    <h2>{daysOfWeek[6].title}</h2>
+                    <MenuMeal dayOfWeekId={daysOfWeek[6].id} />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default observer(Menu);

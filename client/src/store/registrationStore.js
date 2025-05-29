@@ -1,14 +1,14 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from 'mobx';
 import { createUserInfo, getUserInfo, updateUserInfo } from '../services/UserInfoService';
 
 export default class RegistrationStore {
-    name = "";
-    dob = "";
-    weight = "";
-    height = "";
+    name = '';
+    dob = '';
+    weight = '';
+    height = '';
     activityId = null;
     goalId = null;
-    sex = "";
+    sex = '';
     isLoading = false;
     error = null;
 
@@ -41,13 +41,13 @@ export default class RegistrationStore {
     }
 
     clear() {
-        this.name = "";
-        this.dob = "";
-        this.weight = "";
-        this.height = "";
+        this.name = '';
+        this.dob = '';
+        this.weight = '';
+        this.height = '';
         this.activityId = null;
         this.goalId = null;
-        this.sex = "";
+        this.sex = '';
         this.error = null;
     }
 
@@ -68,7 +68,7 @@ export default class RegistrationStore {
         const height = Number(this.height);
         const age = new Date().getFullYear() - new Date(this.dob).getFullYear();
         const base = 10 * weight + 6.25 * height - 5 * age;
-        return this.sex === "male" ? base + 5 : base - 161;
+        return this.sex === 'male' ? base + 5 : base - 161;
     }
 
     get totalCalories() {
@@ -77,15 +77,17 @@ export default class RegistrationStore {
             2: 1.38,
             3: 1.55,
             4: 1.73,
-            5: 1.9
+            5: 1.9,
         };
 
         const goalFactors = {
             1: 0.85,
             2: 1.0,
-            3: 1.15
+            3: 1.15,
         };
-        return Math.round(this.bmr * (activityFactors[this.activityId] || 1) * (goalFactors[this.goalId] || 1));
+        return Math.round(
+            this.bmr * (activityFactors[this.activityId] || 1) * (goalFactors[this.goalId] || 1),
+        );
     }
 
     get proteins() {
@@ -112,12 +114,12 @@ export default class RegistrationStore {
                 height: Number(this.height),
                 dateOfBirth: this.dob,
                 sex: this.sex,
-                name: this.name
+                name: this.name,
             });
-            console.log("Інформацію про користувача збережено:", result);
+            console.log('Інформацію про користувача збережено:', result);
             return result;
         } catch (error) {
-            this.setError(error.message || "Помилка при збереженні");
+            this.setError(error.message || 'Помилка при збереженні');
             throw error;
         } finally {
             this.setLoading(false);
@@ -136,12 +138,12 @@ export default class RegistrationStore {
                 height: Number(this.height),
                 dateOfBirth: this.dob,
                 sex: this.sex,
-                name: this.name
+                name: this.name,
             });
-            console.log("Інформацію оновлено:", result);
+            console.log('Інформацію оновлено:', result);
             return result;
         } catch (error) {
-            this.setError(error.message || "Помилка при оновленні");
+            this.setError(error.message || 'Помилка при оновленні');
             throw error;
         } finally {
             this.setLoading(false);
@@ -154,22 +156,18 @@ export default class RegistrationStore {
 
         try {
             const data = await getUserInfo();
-            console.log("Отримано з сервера:", data);
+            console.log('Отримано з сервера:', data);
             this.activityId = data.activity_ID ?? null;
             this.goalId = data.goal_ID ?? null;
             this.weight = data.weight.toString();
             this.height = data.height.toString();
-            this.dob = data.dateOfBirth?.split("T")[0] || "";
+            this.dob = data.dateOfBirth?.split('T')[0] || '';
             this.sex = data.sex;
-            this.name = data.name || "";
+            this.name = data.name || '';
         } catch (error) {
-            this.setError(error.message || "Помилка при завантаженні");
+            this.setError(error.message || 'Помилка при завантаженні');
         } finally {
             this.setLoading(false);
         }
     }
-
-
-
-
 }

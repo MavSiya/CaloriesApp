@@ -94,7 +94,7 @@ export default class MemberStore {
         };
 
         return Math.round(
-            this.bmr * (activityFactors[this.activityId] || 1) * (goalFactors[this.goalId] || 1)
+            this.bmr * (activityFactors[this.activityId] || 1) * (goalFactors[this.goalId] || 1),
         );
     }
 

@@ -1,34 +1,42 @@
-import { useContext, useState } from "react";
-import { Context } from "../../index";
-import { observer } from "mobx-react-lite";
-import './LoginForm.css'
+import { useContext, useState } from 'react';
+import { Context } from '../../index';
+import { observer } from 'mobx-react-lite';
+import './LoginForm.css';
 
 function LoginForm() {
-   const [email, setEmail] = useState('')
-   const [password, setPassword] = useState('')
-   const { store } = useContext(Context);
-   
-   return (
-      <div className="login-form">
-          <div> <img src="/img/logo.png" alt="logo" /></div>
-         
-         <input onChange={e => setEmail(e.target.value)}
-            value={email}
-            type="text"
-            placeholder="Email"
-         />
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { store } = useContext(Context);
 
-         <input onChange={e => setPassword(e.target.value)}
-            value={password}
-            type="password"
-            placeholder="Password"
-         />
+    return (
+        <div className="login-form">
+            <div>
+                {' '}
+                <img src="/img/logo.png" alt="logo" />
+            </div>
 
-         <button className="button login" onClick={() => store.login(email, password)}>Логин</button>
-         <button className="button login" onClick={() => store.registration(email, password)}>Регистрация</button>
+            <input
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                type="text"
+                placeholder="Email"
+            />
 
-      </ div>
-   );
+            <input
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                type="password"
+                placeholder="Password"
+            />
+
+            <button className="button login" onClick={() => store.login(email, password)}>
+                Логин
+            </button>
+            <button className="button login" onClick={() => store.registration(email, password)}>
+                Регистрация
+            </button>
+        </div>
+    );
 }
 
 export default observer(LoginForm);

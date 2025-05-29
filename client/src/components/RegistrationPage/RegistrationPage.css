@@ -1,23 +1,23 @@
-.form_and_activity{
+.form_and_activity {
     display: flex;
     flex-direction: row;
-    align-items:center;
+    align-items: center;
 }
 
-.goal_and_activity{
+.goal_and_activity {
     display: flex;
     flex-direction: row;
-    align-items:flex-start;
+    align-items: flex-start;
 }
 
-.main{
+.main {
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
 }
 
-.calculationKpfc{
+.calculationKpfc {
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
 }

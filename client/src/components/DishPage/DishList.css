@@ -3,27 +3,28 @@
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
-  }
-  
-  .dishes-table {
+}
+
+.dishes-table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-  }
-  
-  .dishes-table th, .dishes-table td {
+}
+
+.dishes-table th,
+.dishes-table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #33994b3b;
-  }
-  
-  .dishes-table th {
+}
+
+.dishes-table th {
     background-color: #cdfcd8;
     font-weight: bold;
-  }
-  
-  .add-dish-button {
-    background-color: #4CAF50;
+}
+
+.add-dish-button {
+    background-color: #4caf50;
     width: 172px;
     height: 60px;
     color: white;
@@ -34,18 +35,18 @@
     font-size: 16px;
     margin-top: 10px;
     text-align: center;
-  }
-  
-  .add-dish-button:hover {
+}
+
+.add-dish-button:hover {
     background-color: #45a049;
-  }
+}
 
-  .td_prelast{
+.td_prelast {
     width: 220px;
-  }
+}
 
-   .td_last{
+.td_last {
     padding: 0;
     width: 20px;
     border-bottom: 0;
-  }
+}

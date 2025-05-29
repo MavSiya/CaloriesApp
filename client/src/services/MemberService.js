@@ -27,7 +27,7 @@ export async function addMemberInfo({
     weight,
     height,
     dateOfBirth,
-    sex
+    sex,
 }) {
     try {
         const response = await fetch(`${API_URL}/add-info`, {
@@ -122,7 +122,7 @@ export async function updateMemberInfo({
     fats,
     carbs,
     dateOfBirth,
-    sex
+    sex,
 }) {
     try {
         const response = await fetch(`${API_URL}/update/${memberId}`, {
@@ -165,7 +165,7 @@ export async function getMemberInfo(memberId) {
 
         if (!response.ok)
             throw new Error(
-                (await response.json()).message || 'Помилка отримання інформації про члена'
+                (await response.json()).message || 'Помилка отримання інформації про члена',
             );
         return await response.json();
     } catch (error) {

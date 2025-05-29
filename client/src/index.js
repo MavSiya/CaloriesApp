@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom'; 
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -19,19 +19,25 @@ const memberStore = new MemberStore();
 const menuStore = new MenuStore();
 
 export const Context = createContext({
-  store,registrationStore,journalStore,dishStore,memberStore, menuStore
+    store,
+    registrationStore,
+    journalStore,
+    dishStore,
+    memberStore,
+    menuStore,
 });
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Context.Provider value={{ store, registrationStore, journalStore, dishStore, memberStore, menuStore}}>
-  <React.StrictMode>
-  <BrowserRouter>
-      <App />
-      </BrowserRouter>
-  </React.StrictMode>
-  </Context.Provider>
+    <Context.Provider
+        value={{ store, registrationStore, journalStore, dishStore, memberStore, menuStore }}
+    >
+        <React.StrictMode>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </React.StrictMode>
+    </Context.Provider>,
 );
 
 reportWebVitals();

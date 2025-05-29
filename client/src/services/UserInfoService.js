@@ -1,7 +1,15 @@
 const API_URL = 'http://localhost:5000/api';
 
 // Створення даних про користувача
-export async function createUserInfo({ activityId, goalId, weight, height, dateOfBirth, sex, name }) {
+export async function createUserInfo({
+    activityId,
+    goalId,
+    weight,
+    height,
+    dateOfBirth,
+    sex,
+    name,
+}) {
     try {
         const response = await fetch(`${API_URL}/userInfo`, {
             method: 'POST',
@@ -34,7 +42,15 @@ export async function createUserInfo({ activityId, goalId, weight, height, dateO
 }
 
 // Оновлення даних про користувача
-export async function updateUserInfo({ activityId, goalId, weight, height, dateOfBirth, sex, name }) {
+export async function updateUserInfo({
+    activityId,
+    goalId,
+    weight,
+    height,
+    dateOfBirth,
+    sex,
+    name,
+}) {
     try {
         const response = await fetch(`${API_URL}/userInfo`, {
             method: 'PUT',

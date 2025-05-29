@@ -1,7 +1,7 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from 'mobx';
 import * as AuthService from '../services/AuthService';
 import axios from 'axios';
-import {API_URL} from "../http";
+import { API_URL } from '../http';
 
 export default class Store {
     user = {};
@@ -25,8 +25,8 @@ export default class Store {
 
     setSelectedMemberId(memberId) {
         this.selectedMemberId = memberId;
-      }
-      
+    }
+
     async login(email, password) {
         try {
             const response = await AuthService.login(email, password);
@@ -76,6 +76,4 @@ export default class Store {
             this.setLoading(false);
         }
     }
-
-
 }
