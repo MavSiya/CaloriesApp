@@ -5,7 +5,7 @@ import ApiError from '../exceptions/api-error.js';
 export async function registration(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
+        throw ApiError.BadRequest('Помилка при валідації', errors.array());
     }
     const { email, password } = req.body;
     const userData = await userService.registration(email, password);

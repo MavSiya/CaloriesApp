@@ -9,7 +9,7 @@ import * as menuController from '../controllers/menu-controller.js';
 
 import { body } from 'express-validator';
 import authMiddleware from '../middlewares/auth-middleware.js';
-const router = new Router();
+const router = Router();
 
 router.post(
     '/registration',
@@ -58,7 +58,7 @@ router.put(
     userInfoController.updateUserInfo,
 );
 
-router.get('/userinfo', authMiddleware, userInfoController.getUserInfo);
+router.get('/userInfo', authMiddleware, userInfoController.getUserInfo);
 
 //dish-controller
 router.post('/create', authMiddleware, dishController.createDish);

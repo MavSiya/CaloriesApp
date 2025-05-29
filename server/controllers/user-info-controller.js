@@ -6,7 +6,7 @@ import ApiError from '../exceptions/api-error.js';
 export async function createUserInfo(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest('Помилка при валідації', errors.array()));
+        throw ApiError.BadRequest('Помилка при валідації', errors.array());
     }
 
     const { activityId, goalId, weight, height, dateOfBirth, sex, name } = req.body;

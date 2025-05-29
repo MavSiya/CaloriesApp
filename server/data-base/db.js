@@ -18,13 +18,13 @@ export async function initDB() {
       )
     `;
     const createTokensTableQuery = `
-  CREATE TABLE IF NOT EXISTS tokens (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    userId INT NOT NULL,
-    refreshToken TEXT NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
-  )
-`;
+      CREATE TABLE IF NOT EXISTS tokens (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        userId INT NOT NULL,
+        refreshToken TEXT NOT NULL,
+        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+      )
+    `;
     try {
         const connection = await pool.getConnection();
         await connection.query(createUsersTableQuery);

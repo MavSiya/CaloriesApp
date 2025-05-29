@@ -70,12 +70,14 @@ class UserInfoService {
     // Метод для отримання даних про користувача
     async getUserInfo() {
       try {
-        const response = await fetch(`${API_URL}/userinfo`, {
+        const response = await fetch(`${API_URL}/userInfo`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`  // Токен из localStorage
           }
         });
+
+        if (response.status === 404) { return null }
   
         if (!response.ok) {
           const error = await response.json();
